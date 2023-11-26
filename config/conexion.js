@@ -1,5 +1,15 @@
-require('dotenv').config();
+const result = require('dotenv').config();
 var mysql = require('mysql');
+
+if (result.error) {
+  let error_dotenv = 'No se ha podido cargar las variables de entorno. \nCódigo de error: ' + result.error.code + '\nPath: ' + result.error.path + '\n';
+  throw error_dotenv //Error al leer .env
+}
+//console.log(result.parsed)
+if (!result.parsed.DB_HOST || !result.parsed.DB_USER || !result.parsed.DB_PASSWORD || !result.parsed.DB_DATABASE) {
+  let error_dotenv_MySQL = 'No se han encontrado todas variables de entorno para la conexión a la base de datos. \n Verifique su archivo .env\n';
+  throw error_dotenv_MySQL //Error al leer variables de conexión en .env
+}
 var connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

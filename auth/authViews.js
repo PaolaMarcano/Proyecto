@@ -1,7 +1,12 @@
 var cookieParser = require('cookie-parser')
-require('dotenv').config()
+const result = require('dotenv').config()
 var jwt = require('jsonwebtoken');
 const { token } = require('morgan');
+
+if (!result.parsed.JWT_SECRET) {
+    let error_dotenv_JWT = 'No se ha encontrado la variable de entorno: "JWT_SECRET". \n';
+    throw error_dotenv_JWT //Error al leer variable JWT_SECRET en .env
+}
 
 function checkLevelView(rolToken) {
     if (rolToken == 'admin') {

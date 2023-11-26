@@ -1,6 +1,11 @@
-require('dotenv').config()
+const result = require('dotenv').config()
 var jwt = require('jsonwebtoken');
 const UsuarioController = require('../controllers/Usuario_Controller');
+
+if (!result.parsed.JWT_SECRET) {
+    let error_dotenv_JWT = 'No se ha encontrado la variable de entorno: "JWT_SECRET". \n';
+    throw error_dotenv_JWT //Error al leer variable JWT_SECRET en .env
+}
 
 function checkLevel(rolToken) {
     if (rolToken == 'admin') {
