@@ -1,0 +1,69 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Patrocinador"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+  <div class="form_container">
+    <form action method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+          <h1 class="register"><%= title %></h1>
+        <label id="titulo">Nombre Comercial</label><br>
+        <input class="input_form" type="text" name="nombre_comercial" required><br>
+        <label id="titulo">Persona de Contacto</label><br>
+        <input class="input_form" type="text"  name="persona_de_contacto" required><br>
+        <label id="titulo">Teléfono</label><br>
+        <input class="input_form" type="text"  name="telefono" required><br>
+        <label id="titulo">Comentario (opcional)</label><br>
+        <input class="input_form" type="text"  name="comentario"><br>
+        <input type="submit" class="button" value="Registarse">
+        </div>
+
+        <div class="type">
+          <h2 class="paType">Tipo de patrocino</h2><br>
+
+            <div class="paType_check">
+              <%  for (let i = 0; i < patrocinios.length; i++) { %>
+                <% if(patrocinios[i].id_patrocinio == 5  && equipos.length != 0){  %>
+                  <label class="patroci"><%= patrocinios[i].nombre_patrocinio %> Costo: <%= patrocinios[i].monto %></label>
+                  <input class="radio_patro" type="radio" value="<%= patrocinios[i].id_patrocinio %>" name="idPatrocinio" required><br>
+                      <hr>
+                  <p >Si usted desea ser un Padrino debe escoger un equipo para poder patrocinar, 
+                    para ver detalles de los equipos disponibles revise <a class="visit_here" href="/equipo/verEquipo" target="_blank">aquí</a> para más información</p><br>
+                    
+                    <div class="av_teams">
+                      <h2 class="av_teams_text"><strong>Equipos disponibles:</strong> </h2><br>
+                    
+                            <%  for (let i = 0; i < equipos.length; i++) { %>
+                              <label><%= equipos[i].nombre_de_equipo %></label>
+                              <input type="radio" value="<%= equipos[i].id_equipo %>" name="idEquipo"><br>
+                            <% } %>
+            
+                          <% } else if(patrocinios[i].id_patrocinio != 5 ) {%>
+                            <label><%= patrocinios[i].nombre_patrocinio %> Costo: <%= patrocinios[i].monto %></label>
+                            <input type="radio" value="<%= patrocinios[i].id_patrocinio %>" name="idPatrocinio" required><br>
+                          <% } %>
+            
+                        <% } %>
+                    </div>
+            </div>
+                
+        </div>
+       
+      </div>
+      <div class="sumb">
+      
+      </div>
+  </form>
+  </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

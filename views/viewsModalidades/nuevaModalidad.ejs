@@ -1,0 +1,31 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Modalidad"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+    <div class="form_container"> 
+        <form action method="post" class="form_r">
+          <div class="register_container">
+            <div class="f_form">
+              <h1 class="register"><%= title %></h1>
+              <label id="titulo">Modalidad</label><br>
+              <input type="text" class="input_form" name="nombre_modalidad" required> <br>
+              <input type="submit" class="button" value="Añadir">
+            </div>
+
+          </div>
+
+        </form>
+
+    </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

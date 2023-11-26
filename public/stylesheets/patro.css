@@ -1,0 +1,112 @@
+body {
+    min-height: 100vh;
+    }
+
+main{
+    height: 75vh;
+}
+.form_container{
+    position: relative;
+    display: inline-block;
+    padding: 35px 100px;
+    margin-left: 100px;
+}
+
+.form_r{
+    display: inline-block;
+    text-align: left; /*REVISAR*/
+}
+
+.visit_here{
+    color: rgb(15, 161, 73);
+}
+
+.visit_here:hover{
+    text-decoration: underline;
+}
+
+.register{
+    margin-bottom: 20px;
+}
+.f_form{
+    display:inline-block;
+    width: 500px;
+    height: 400px;
+    position: relative;
+}
+
+#titulo{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+}
+
+.input_form{
+    width: 400px;
+    height: 40px;
+    border: none;
+    outline: 2px solid #000;
+    border-radius: 3px;
+    font-size: 15px;
+    margin: 15px 0;
+    padding: 2px;
+    text-align: left;
+}
+
+.type{
+    float: right;
+    width: 500px;
+    height: 400px;
+    padding: 20px;
+    border-left: 1px solid #000;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+
+
+}
+
+.paType_check{
+    font-size: 1rem;
+}
+
+hr{
+    margin-top: 15px;
+    color: #000;
+}
+.paType_check p {
+    margin-top: 30px;
+}
+
+.av_teams_text{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.av_teams {
+    color: hsl(158.2, 38.7%, 39%);
+    text-shadow: #ffffff 5px 5px 5px;
+    display: inline-block;
+    width: 500px;
+    height: 95px;
+    background-color: hsla(0, 0%, 75%, 0.336);
+    padding: 15px;
+    overflow-y: auto;
+    font-weight: bold;
+}
+
+
+.button{
+    width: 405px;
+    height: 50px;
+    margin-top: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    background-color: hsla(158, 39%, 39%, 0.795) ;
+    border: none;
+    color: #ffffff;
+}
+
+.button:hover{
+    background-color: hsla(158, 69%, 30%, 0.61);
+    transition: all .2s;
+}

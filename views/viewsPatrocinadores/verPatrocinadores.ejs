@@ -1,0 +1,36 @@
+<%- include("../templates/header", { mainTitle:"UVM|Robotica|Patrocinantes" }) %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+
+<body>
+  <%- include("../partials/disclaimer") %>
+  <%- include("../partials/nav") %>
+  <main>
+    <div class="mostrar_container">
+      <h1> <%= title %> </h1>
+      <hr>
+      <div class="boxes">
+        <% if (tabla.length) { %>
+          <% let titulos = subtitulos %>
+          <% for (fila of tabla) { 
+            if (!Object.hasOwnProperty.call(fila, titulos)) { titulos = undefined };
+            %>
+            <h2> <%= fila[titulos] %> </h2>
+            <ul>
+              <% for (columna in fila) { %>
+                <% if (columna != titulos) { %>
+                  <li> <%= columna %>: <%= fila[columna] %> </li> <br>
+                  <% } %>
+                <% } %>
+            </ul>
+            <hr>
+            <% } %>
+          <% } %>
+      </div>
+    </div>
+  </main>
+  <%- include("../partials/footer") %>
+</body>
+
+</html>

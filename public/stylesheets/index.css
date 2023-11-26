@@ -1,0 +1,27 @@
+.container_index{
+    font-family: 'Open Sans', sans-serif;
+    padding: 50px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.img_container{
+    float: right;
+    margin-right: 50px;
+}
+
+.imgIndx{
+    max-width: 400px;
+    margin-right: 100px;
+}
+
+.h1_container{
+    font-size: 2rem;
+    width: 800px;
+    float: left;
+}
+
+.mainIndex{
+    height: 75vh;
+}

@@ -1,0 +1,51 @@
+<%- include("../templates/header", { mainTitle:"UVM|Robotica|Modalidades" }) %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+
+<body>
+  <%- include("../partials/disclaimer") %>
+  <%- include("../partials/nav") %>
+  <main>
+    <div class="mostrar_container">
+      <h1> <%= title %> </h1>
+      <hr>
+      <div class="boxes">
+        <% if (tabla.length) { %>
+          <% let titulos = subtitulos %>
+          <% let titulos2 = subtitulos2%>
+          <% let arreglo = array %>
+          <% for (fila of tabla) { 
+            if (!Object.hasOwnProperty.call(fila, titulos)) { titulos = undefined };
+            %>
+            <h2> <%= fila[titulos] %> </h2>
+            <ul>
+              <% for (columna in fila) { %>
+                <% if (columna != titulos && columna != arreglo) { %>
+                  <li> <%= columna %>: <%= fila[columna] %> </li> <br>
+                  <% } %>
+                <% } %>
+            </ul>
+            <% let i = 0; for (fila2 of fila[arreglo]) { 
+              if (!Object.hasOwnProperty.call(fila2, titulos2)) { titulos2 = undefined }
+              %>
+              <% if (i > 0) { %> <br> <% } %>
+              <h3> <%= fila2[titulos2] %> </h3>
+              <ul>
+                <% for (columna2 in fila2) { %>
+                  <% if (columna2 != titulos2) { %>
+                    <li> <strong> <%= columna2 %>: </strong> <%= fila2[columna2] %> </li> <br>
+                    <% } %>
+                  <% } %>
+              </ul>
+              <% i++ } %>
+            <hr>
+            <% } %>
+          <% } %>
+      </div>
+    </div>
+  </main>
+  <%- include("../partials/footer") %>
+</body>
+
+</html>

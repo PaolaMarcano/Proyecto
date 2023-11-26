@@ -1,0 +1,52 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Categoría"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+    <% if(modalidades.length != 0){  %>
+        <main>
+            <div class="form_container"> 
+                <form action method="post" class="form_r">
+                  <div class="register_container">
+                    <div class="f_form">
+                      <h1 class="register"><%= title %></h1>
+                      <label id="titulo">Nombre de la Categoría</label><br>
+                      <input type="text" class="input_form" name="nombre_categoria" required> <br>
+                      <label id="titulo">Descripción</label><br>
+                      <input type="text" class="input_form" name="descripcion" required> <br>
+                      <label id="titulo">Reglas</label><br>
+                      <input type="text" class="input_form" name="reglas" required> <br>
+                      <label id="titulo">Premio</label><br>
+                      <input type="number" class="input_form" name="premio" required> <br>
+                      <input type="submit" class="button" value="Añadir">
+                    </div>
+
+                    <div class="type">
+                        <h2>Seleccione la modalidad a la que pertence esta categoría</h2>
+                        <div class="paType_check"> 
+                            <%  for (let i = 0; i < modalidades.length; i++) { %>
+                                <label><%= modalidades[i].nombre_modalidad %></label>
+                                <input type="radio" value="<%= modalidades[i].id_modalidad %>" name="idModalidad" required><br>
+                            <% } %>
+                        </div> 
+                    </div>
+        
+                  </div>
+        
+                </form>
+        
+            </div>
+         </main>
+    <% } else {%>
+        <h1>Lo sentimos no hay modalidades para crear categorías</h1>
+    <% } %>  
+
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

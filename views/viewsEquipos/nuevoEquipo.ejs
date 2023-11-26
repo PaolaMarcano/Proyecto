@@ -1,0 +1,50 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Equipo"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+  <title><%= title %></title>
+</head>
+  
+  <body>
+      <%-include("../partials/disclaimer")%>
+      <%-include("../partials/nav")%>    
+      <% if(categorias.length != 0){  %>
+        </main>
+      <div class="form_container">
+        <form action method="post" class="form_r">
+          <div class="register_container">
+            <div class="f_form">
+              <label id="titulo">Representante</label><br>
+              <input class="input_form" type="text" name="representante" required><br>
+              <label id="titulo">Email</label><br>
+              <input class="input_form" type="email" name="email" required><br>
+              <label id="titulo">Teléfono</label><br>
+              <input class="input_form" type="text" name="telefono" required><br>
+              <label id="titulo">Nombre del Equipo</label><br>
+              <input class="input_form" type="text" name="nombre_de_equipo" required><br>
+              <label id="titulo">Participantes</label><br>
+              <input class="input_form" type="text" name="participantes" required><br>
+              <label id="titulo">Comentario (opcional)</label><br>
+              <input class="input_form" type="text"  name="comentario"><br>
+              <input type="submit" class="button" value="Registarse"> 
+            </div>
+
+            <div class="type">
+              <h2>Seleccione las categorías en las que va a competir</h2>
+              <div class="paType_check">
+                <%  for (let i = 0; i < categorias.length; i++) { %>
+                  <label>Modalidad: <%= categorias[i].nombre_modalidad %> Categoría: <%= categorias[i].nombre_categoria %></label>
+                  <input type="checkbox" value="<%= categorias[i].id_categoria %>" name="categorias"><br>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+        </main>
+      <% } else {%>
+          <h1>Lo sentimos no hay categorías para inscribir</h1>
+      <% } %>  
+
+      <%-include("../partials/footer")%>
+  </body>
+</html>
