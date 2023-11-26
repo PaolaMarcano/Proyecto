@@ -123,7 +123,7 @@ router.post('/nuevaCategoria', checkAdminView, function (req, res, next) {
 
 /* PUT VIEWS */
 
-router.get('/editarCategoria/:index',function(req,res, next){
+router.get('/editarCategoria/:index', checkAdminView,function(req,res, next){
     Modalidad_Controller.ver_modalidad()
     .then((resultados) => {
         Categoria_Controller.buscar_categoria_id(req.params.index) .then((resultado) => {
@@ -141,7 +141,7 @@ router.get('/editarCategoria/:index',function(req,res, next){
     })
 });
 
-router.put('/editarCategoria/:index',function(req,res, next){
+router.put('/editarCategoria/:index', checkAdminView,function(req,res, next){
     Categoria_Controller.editar_categoria(req.params.index, req.body)
     .then(() => {
         Modalidad_Controller.ver_modalidadYcat_viewsPublic().then((resultados) => {
@@ -166,7 +166,7 @@ router.put('/editarCategoria/:index',function(req,res, next){
 
 /* DELETE VIEWS */
 
-router.get('/eliminarCategoria/:index',function(req,res, next){
+router.get('/eliminarCategoria/:index', checkAdminView,function(req,res, next){
     Categoria_Controller.buscar_categoria_id(req.params.index) .then((resultado) => {
         let categoria_a_eliminar = resultado;
         console.log(categoria_a_eliminar)
@@ -177,7 +177,7 @@ router.get('/eliminarCategoria/:index',function(req,res, next){
     })
 });
 
-router.delete('/eliminarCategoria/:index',function(req,res, next){
+router.delete('/eliminarCategoria/:index', checkAdminView,function(req,res, next){
    Categoria_Controller.eliminar_categoria(req.params.index).then((resultados)=>{
         res.send("Eliminado correctamente")
     }).catch((error)=>{
