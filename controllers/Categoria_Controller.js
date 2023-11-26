@@ -59,6 +59,11 @@ class CategoriaController {
             }
         })
     }
+    buscar_categoria_id(id_cat) {//Para mostrar la categoria actualizada
+        return new Promise((resolve, reject) => {
+            Categoria_model.buscar_categoria_id(id_cat).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
 }
 
 module.exports = new CategoriaController();

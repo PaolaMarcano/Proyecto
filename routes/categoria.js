@@ -50,7 +50,7 @@ router.get('/participantes', checkAdmin, function (req, res, next) {
     })
 });
 
-router.put('/:editar', checkAdmin, function (req, res, next) {
+/* router.put('/:editar', checkAdmin, function (req, res, next) {
     //console.log('en routes', req.params.editar, req.body);
     Categoria_Controller.editar_categoria(req.params.editar, req.body)
         .then((resultados) => {
@@ -61,7 +61,7 @@ router.put('/:editar', checkAdmin, function (req, res, next) {
             //console.info(error);
             res.status(error.codigo).send(error.mensaje);
         })
-});
+}); */
 
 router.patch('/:editar', checkAdmin, function (req, res, next) {
     //console.log('en routes', req.params.editar, req.body);
@@ -117,6 +117,49 @@ router.post('/nuevaCategoria', checkAdminView, function (req, res, next) {
         })
     })
     .catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+/* PUT VIEWS */
+
+router.get('/editarCategoria/:index',function(req,res, next){
+    Modalidad_Controller.ver_modalidad()
+    .then((resultados) => {
+        Categoria_Controller.buscar_categoria_id(req.params.index) .then((resultado) => {
+            let modalidades = resultados.mensaje;
+            let categoria_a_editar = resultado;
+            console.log(categoria_a_editar)
+            res.render('./viewsCategorias/editarCategoria',{title: 'Editar una Categoría', modalidades: modalidades, categoria: categoria_a_editar});
+        })
+        .catch((error) => {
+            res.status(error.codigo).send(error.mensaje);
+        })
+    })
+    .catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+router.put('/editarCategoria/:index',function(req,res, next){
+    Categoria_Controller.editar_categoria(req.params.index, req.body)
+    .then(() => {
+        Modalidad_Controller.ver_modalidadYcat_viewsPublic().then((resultados) => {
+            res.render('./viewsModalidades/verModalidades', {
+                title: 'Modalidades y Categorías',
+                tabla: resultados,
+                subtitulos: "nombre_modalidad",
+                array: "Categorias",
+                subtitulos2: "nombre_categoria"
+            });
+        }).catch((error) => {
+            if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
+            else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
+            else { res.status(500).send(error) }
+        })
+    })
+    .catch((error) => {
+        //console.info(error);
         res.status(error.codigo).send(error.mensaje);
     })
 });
