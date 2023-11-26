@@ -164,4 +164,25 @@ router.put('/editarCategoria/:index',function(req,res, next){
     })
 });
 
+/* DELETE VIEWS */
+
+router.get('/eliminarCategoria/:index',function(req,res, next){
+    Categoria_Controller.buscar_categoria_id(req.params.index) .then((resultado) => {
+        let categoria_a_eliminar = resultado;
+        console.log(categoria_a_eliminar)
+        res.render('./viewsCategorias/eliminarCategoria',{title: '¿Quiere Eliminar está categoría?',categoria: categoria_a_eliminar});
+    })
+    .catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+router.delete('/eliminarCategoria/:index',function(req,res, next){
+   Categoria_Controller.eliminar_categoria(req.params.index).then((resultados)=>{
+        res.send("Eliminado correctamente")
+    }).catch((error)=>{
+        res.status(error.codigo).send(error.mensaje);
+    }) 
+});
+
 module.exports = router; 
