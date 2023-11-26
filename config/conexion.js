@@ -6,7 +6,7 @@ if (result.error) {
   throw error_dotenv //Error al leer .env
 }
 //console.log(result.parsed)
-if (!result.parsed.DB_HOST || !result.parsed.DB_USER || !result.parsed.DB_PASSWORD || !result.parsed.DB_DATABASE) {
+if (!result.parsed.DB_HOST || !result.parsed.DB_USER || !result.parsed.DB_DATABASE) {
   let error_dotenv_MySQL = 'No se han encontrado todas variables de entorno para la conexión a la base de datos. \n Verifique su archivo .env\n';
   throw error_dotenv_MySQL //Error al leer variables de conexión en .env
 }
