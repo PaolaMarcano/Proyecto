@@ -2,7 +2,7 @@ const connection = require('../config/conexion');
 const { Respuesta, validarClass } = require('./metodos');
 
 class Equipo {
-    constructor(representante, email, telefono, nombre_de_equipo, participantes, comentario, idtok) {
+    constructor(representante, email, telefono, nombre_de_equipo, participantes, comentario, idtok, verificado) {
         this.representante = representante;
         this.email = email;
         this.telefono = telefono;
@@ -10,6 +10,7 @@ class Equipo {
         this.participantes = participantes;
         this.comentario = comentario;
         this.id_user = idtok;
+        this.verificado = verificado
     }
 }
 
@@ -110,7 +111,8 @@ class EquipoModel {
     }
     ingresar_equipo(equipo) {
         return new Promise((resolve, reject) => {
-            let Nuevo_equipo = new Equipo(equipo.representante, equipo.email, equipo.telefono, equipo.nombre_de_equipo, equipo.participantes, equipo.comentario, equipo.id_user);
+            equipo.verificado = "por verificar";
+            let Nuevo_equipo = new Equipo(equipo.representante, equipo.email, equipo.telefono, equipo.nombre_de_equipo, equipo.participantes, equipo.comentario, equipo.id_user, equipo.verificado);
             if (validarClass(Nuevo_equipo, reject, ["comentario"], 400) !== true) return;
             connection.query('INSERT INTO `equipos` SET ?', Nuevo_equipo, function (err, rows, fields) {
                 if (err) {
