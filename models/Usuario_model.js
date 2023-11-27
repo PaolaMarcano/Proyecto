@@ -67,11 +67,11 @@ class UsuarioModel {
             connection.query('SELECT * FROM `usuarios` WHERE cedula_usuario = ?', usuario.cedula_usuario, function (error, results, fields) {
                 if (error) { reject(error); return };
                 if (results[0]) {
-                    console.log('consulta:', results);
+                    console.log('Login de usuario:', results);
                     if (results[0].nombre_usuario == usuario.nombre_usuario) {
                         if (bcrypt.compareSync(usuario.clave_usuario, results[0].clave_usuario)) {
                             //Roles
-                            let rol = 'user'
+                            let rol = 'editor'
                             if (results[0].rol_usuario) rol = results[0].rol_usuario;
 
                             var token = jwt.sign({ nombre: results[0].nombre_usuario, id: results[0].cedula_usuario, rol: rol }, process.env.JWT_SECRET, { expiresIn: '1h' });

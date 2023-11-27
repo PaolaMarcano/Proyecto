@@ -8,19 +8,19 @@ const { checkLoginView, resDateTime } = require('../auth/authViews')
 
 /* GET home page. */
 router.get('/home', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Campeonato UVM' });
 });
 
 router.get('/home/register', function (req, res, next) {
-  res.render('./userViews/register', { title: 'Express' });
+  res.render('./userViews/register', { mainTitle: "Registrar Usuario" });
 });
 
 router.post('/home/register', function (req, res, next) {
-  //res.render('./userViews/register', { title: 'Express' });
   let data = req.body;
   if (data != null) {
-    UsuarioController.registrar_usuario(req.body).then(() => {
-      res.render('./userViews/register', { title: 'Express' });
+    UsuarioController.registrar_usuario(req.body).then((token) => {
+      res.cookie("jwt", token.token, { maxAge: 3600000 });
+      res.redirect('./menu');
     })
       .catch((error) => {
         if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
@@ -32,11 +32,10 @@ router.post('/home/register', function (req, res, next) {
 
 router.get('/home/login', function (req, res, next) {
   if (req.cookies.jwt && typeof decodificar(req.cookies.jwt) == "object") { res.redirect('./menu'); return };
-  res.render('./userViews/login', { title: 'Express' });
+  res.render('./userViews/login', { mainTitle: "Iniciar Sesión" });
 });
 
 router.post('/home/login', function (req, res, next) {
-  //res.render('./userViews/login', { title: 'Express' });
   UsuarioController.login(req.body).then((token) => {
     res.cookie("jwt", token.token, { maxAge: 3600000 });
     res.redirect('./menu');
