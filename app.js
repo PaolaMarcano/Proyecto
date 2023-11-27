@@ -12,6 +12,7 @@ var categoriaRouter = require('./routes/categoria');
 var equipoRouter = require('./routes/equipos');
 var patrocinadorRouter = require('./routes/patrocinadores');
 var juezRouter = require('./routes/juez');
+var eventosRouter = require ('./routes/eventos');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/categoria', categoriaRouter);
 app.use('/equipo', equipoRouter);
 app.use('/patrocinador', patrocinadorRouter);
 app.use('/juez', juezRouter);
+app.use('/evento', eventosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
