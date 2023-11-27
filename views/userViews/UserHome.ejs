@@ -1,1 +1,18 @@
+<%-include("../templates/header")%>
+<head>
+    <script src="/javascript/dateTime.js"></script>
+</head>
 <%-include("../partials/navUsers")%>
+<body>
+    
+    <div class="tiempo" id="vencer">
+        Tiempo restante
+    </div>
+    
+    <script>
+        let fecha = Number('<%= hora %>');
+        tempTime(fecha, true);
+        cambiarAviso(fecha, "vencer");
+    </script>
+</body>
+</html>

@@ -34,7 +34,7 @@ function checkView(token) {
 function checkLoginView(req, res, next) {
     //console.log(req.headers.authorization);
     let reqToken = req.cookies.jwt;
-    if (reqToken == undefined) return res.status(401).send('Debe ingresar un Token');
+    if (reqToken == undefined) return res.redirect('../../home/login');
 
     const { valLogin } = checkView(reqToken);
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
@@ -46,7 +46,7 @@ function checkAdminView(req, res, next) {
     let reqToken = req.cookies.jwt;
     console.log("req Token")
     console.log(reqToken)
-    if (reqToken == undefined) return res.status(401).send('Debe ingresar un Token');
+    if (reqToken == undefined) return res.redirect('../../home/login');
 
     const { valLogin, Utoken } = checkView(reqToken);
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
@@ -62,7 +62,7 @@ function checkAdminView(req, res, next) {
 function checkRootView(req, res, next) {
     //console.log(req.headers.authorization);
     let reqToken = req.headers.authorization;
-    if (reqToken == undefined) return res.status(401).send('Debe ingresar un Token');
+    if (reqToken == undefined) return res.redirect('../../home/login');
 
     const { valLogin, Utoken } = checkView(reqToken);
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
@@ -76,5 +76,15 @@ function checkRootView(req, res, next) {
     next();
 }
 
+function resDateTime(token) {
+    //let exp = new Date(token.exp * 1000);
+    //console.log("Caduca a las:", exp) 
+    if (token.exp) {
+        return token.exp;
+    } else {
+        return 0
+    }
+    
+}
 
-module.exports = { checkLoginView, checkAdminView, checkRootView };
+module.exports = { checkLoginView, checkAdminView, checkRootView, resDateTime };
