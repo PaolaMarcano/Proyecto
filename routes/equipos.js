@@ -122,7 +122,7 @@ router.get('/nuevoEquipo', checkLoginView, function (req, res, next) {
 
 router.post('/nuevoEquipo', checkLoginView, function (req, res, next) {
     let decoded = decodificar(req.cookies.jwt);
-    if (!decoded && isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
     if (req.body.categorias) {
         if (req.body.categorias.length == 1) {
             req.body.categorias = [req.body.categorias]
