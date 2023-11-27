@@ -45,8 +45,8 @@ router.post('/login', function (req, res, next) {
 
 /* PUT user. */
 router.put('/:index', checkLogin, function (req, res, next) {
-  UsuarioController.modificar_usuario(req.params.index, req.body).then((token) => {
-    res.send(token)
+  UsuarioController.modificar_usuario(req.params.index, req.body).then((resultado) => {
+    if (resultado.mensaje) { res.send(resultado.mensaje) } else { res.send(resultado) }
   }).catch((error) => {
     if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
     else { res.status(500).send(error) }
@@ -75,14 +75,6 @@ router.patch('/user_manager', checkRoot, function (req, res, next) {
       if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
       else { res.status(500).send(error) }
     })
-});
-
-
-
-
-/*Views */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
 });
 
 

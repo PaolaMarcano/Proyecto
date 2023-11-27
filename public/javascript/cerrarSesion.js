@@ -3,4 +3,6 @@ function cerrar_sesion() {
     document.location.href = '/home'
 }
 
-
+function cerrar_sesion2() {
+    document.cookie = 'jwt=jwt; max-age=0; path=/'
+}

@@ -37,6 +37,19 @@ class UsuarioModel {
             })
         })
     }
+    buscar_usuario_cedula(cedula) {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT `id_usuario`, `cedula_usuario`, `nombre_usuario`, `correo_usuario` FROM `usuarios` WHERE `cedula_usuario` = ?', [cedula], function (err, rows, fields) {
+                if (err) {
+                    reject(new Respuesta(500, err, err));
+                } else if (rows.length > 0) {
+                    resolve(rows);
+                } else {
+                    reject(new Respuesta(404, "No se ha encontrado ningún usuario con la cédula indicada", rows));
+                }
+            })
+        })
+    }
     guardar_usuario(nuevo) {
         return new Promise((resolve, reject) => {
             //if (nuevo.rol_user) delete nuevo.rol_user; 
@@ -98,6 +111,30 @@ class UsuarioModel {
             if (validarClass(actualizar, reject, [], 400) !== true) return;
             //  Almacena el hash en tu base de datos de contraseña.
             actualizar.clave_usuario = bcrypt.hashSync(actualizar.clave_usuario, saltRounds);
+            if (actualizar.rol_usuario) {
+                reject(new Respuesta(400, 'No puedes cambiarte de rol a ti mismo'))
+            } else {
+                connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ?', [actualizar, id], function (err, rows, fields) {
+                    if (err) {
+                        if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+                        reject(new Respuesta(500, err, err));
+                    } else {
+                        if (rows.affectedRows < 1) {
+                            console.error('El usuario "' + id + '" no existe');
+                            reject(new Respuesta(404, 'No existe ningún usuario con el ID indicado: ' + id, rows))
+                        } else if (rows.changedRows > 0) {
+                            resolve(new Respuesta(200, "Se ha actualizado exitosamente", rows));
+                        } else {
+                            reject(new Respuesta(200, 'No se modificó el usuario "' + id + '", debido a que los datos ingresados son iguales.', rows));
+                        }
+                    }
+                })
+            }
+        })
+    }
+    modificar_usuario_views(id, actualizar) {
+        return new Promise((resolve, reject) => {
+            if (validarClass(actualizar, reject, [], 400) !== true) return;
             if (actualizar.rol_usuario) {
                 reject(new Respuesta(400, 'No puedes cambiarte de rol a ti mismo'))
             } else {

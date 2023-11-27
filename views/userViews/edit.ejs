@@ -1,0 +1,28 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+  <script src="/javascript/cerrarSesion.js"></script> 
+</head>
+<%-include("../partials/nav")%>
+
+
+<body>
+  <div class="form_container">
+    <form action="./edit/<%= user.id_usuario %>/?_method=PUT" method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+          <h1 class="register"><%= mainTitle %></h1>
+          <label id="titulo">Correo</label><br>
+          <input class="input_form" type="email" name="correo_usuario" value="<%= user.correo_usuario %>" required><br>
+          <label id="titulo">Nombre de Usuario</label><br>
+          <input class="input_form" type="text"  name="nombre_usuario" value="<%= user.nombre_usuario %>" required><br>
+          <label id="titulo">Cédula</label><br>
+          <input class="input_form" type="text"  name="cedula_usuario" value="<%= user.cedula_usuario %>" required><br>
+    
+          <input type="submit" class="button" value="Actualizar" onclick="cerrar_sesion2()">          
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>

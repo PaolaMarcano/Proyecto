@@ -11,6 +11,14 @@ class UsuarioController {
       Usuario_model.buscar_usuario(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) })
     })
   }
+  encontrar_usuario_views(cedula) {
+    return new Promise((resolve, reject) => {
+      Usuario_model.buscar_usuario_cedula(cedula).then((usuario) => {
+        console.log("Resultado de la búsqueda por C.I:", usuario);
+        resolve(usuario[0]);
+      }).catch((error) => { reject(error) })
+    })
+  }
   registrar_usuario(nuevo_usuario) {
     return new Promise((resolve, reject) => {
       const relogin = Object.assign({}, nuevo_usuario);
@@ -32,6 +40,15 @@ class UsuarioController {
   modificar_usuario(id, actualizar) {
     return new Promise((resolve, reject) => {
       Usuario_model.modificar_usuario(id, actualizar).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) })
+    })
+  }
+  editar_usuario(id, actualizar) {
+    return new Promise((resolve, reject) => {
+      if (id != undefined && !isNaN(Number(id))) {
+        Usuario_model.modificar_usuario_views(id, actualizar).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) })
+      } else {
+        return reject(new Respuesta(400, 'No se ingresó un ID válido: ' + id, id));
+      }
     })
   }
   borrar_usuario(id) {
