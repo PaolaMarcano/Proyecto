@@ -58,7 +58,7 @@ router.delete('/:index', checkAdmin, function (req, res, next) {
       res.status(500).send(error)
    })
 })
-
+ 
 /* PUT */
 router.put('/:index', checkAdmin, function (req, res, next) {
    Patrocinador_Controller.buscar_patrocinador(req.params.index).then((resultado) => {
@@ -139,5 +139,67 @@ router.get('/todos', checkAdminView, function (req, res, next) {
       else { res.status(500).send(error) }
    })
 });
+
+
+/* PUT patrocinadores VIEWS */
+
+router.get('/editarPatrocinador/:index', checkAdminView, function (req, res, next) {
+   Patrocinador_Controller.ver_patrocinios().then((resultados) => {
+      Patrocinador_Controller.buscar_patrocinador(req.params.index).then((resultado) => {
+         let patrocinios = resultados;
+         let patrocinador_a_editar = resultado
+         res.render('./viewsPatrocinadores/editarPatrocinador', { title: 'Editar un Patrocinador', patrocinios: patrocinios, patrocinador: patrocinador_a_editar });
+      }).catch((error) => {
+         if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+         else { res.status(500).send(error) }
+      })
+   }).catch((error) => {
+      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+      else { res.status(500).send(error) }
+   })
+});
+
+router.put('/editarPatrocinador/:index', checkAdminView, function (req, res, next) {
+   console.log(req.body)
+   Patrocinador_Controller.buscar_patrocinador(req.params.index).then((resultado) => {
+      if(resultado[0].idPatrocinio == 5){
+         req.body.idPatrocinio = 5
+      }
+      Patrocinador_Controller.editar_patrocinador(resultado[0].idPatrocinio, req.params.index, req.body).then((resultado) => {
+         Patrocinador_Controller.ver_patrocinador_views().then((resultados) => {
+            res.render('./viewsPatrocinadores/verPatrocinadores', { title: 'Patrocinadores del Evento', tabla: resultados, subtitulos: "Nombre comercial" });
+         }).catch((error) => {
+            if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+            else { res.status(500).send(error) }
+         })
+      }).catch((error) => {
+         res.status(500).send(error)
+      })
+   }).catch((error) => {
+      res.status(500).send(error)
+   })
+});
+
+
+/* DELETE patrocinadores VIEWS */
+
+router.get('/eliminarPatrocinador/:index', checkAdminView, function (req, res, next) {
+   Patrocinador_Controller.buscar_patrocinador(req.params.index).then((resultado) => {
+      let patrocinador_a_eliminar = resultado
+      res.render('./viewsPatrocinadores/eliminarPatrocinador', { title: '¿Quiere eliminar este patrocinador?', patrocinador: patrocinador_a_eliminar });
+   }).catch((error) => {
+      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+      else { res.status(500).send(error) }
+   })
+   
+});
+
+router.delete('/eliminarPatrocinador/:index', checkAdminView, function (req, res, next) {
+   Patrocinador_Controller.eliminar_patrocinador(req.params.index).then((resultado) => {
+      res.send("Eliminado con exito");
+   }).catch((error) => {
+      res.status(500).send(error)
+   })
+}); 
 
 module.exports = router; 

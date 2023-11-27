@@ -1,0 +1,63 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Patrocinador"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+  <div class="form_container">
+    <form action="<%= patrocinador[0].id_patrocinador %>/?_method=PUT" method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+            <h1 class="register"><%= title %></h1>
+            <label id="titulo">Nombre Comercial</label><br>
+            <input class="input_form" type="text" name="nombre_comercial" value="<%= patrocinador[0].nombre_comercial %>" required><br>
+            <label id="titulo">Persona de Contacto</label><br>
+            <input class="input_form" type="text"  name="persona_de_contacto" value="<%= patrocinador[0].persona_de_contacto %>" required><br>
+            <label id="titulo">Teléfono</label><br>
+            <input class="input_form" type="text"  name="telefono" value="<%= patrocinador[0].telefono %>" required><br>
+            <label id="titulo">Comentario (opcional)</label><br>
+            <input class="input_form" type="text"  name="comentario" value="<%= patrocinador[0].comentario %>"><br>
+            <input type="submit" class="button" value="Actualizar">
+        </div>
+
+        <div class="type">
+        <% if(patrocinador[0].idPatrocinio != 5 ) {%>
+         
+            <h2 class="paType">Tipo de patrocino</h2><br>
+
+              <div class="paType_check">
+              <%  for (let i = 0; i < patrocinios.length; i++) { %>
+                <% if(patrocinios[i].id_patrocinio != 5){  %>
+                  <% if(patrocinios[i].id_patrocinio == patrocinador[0].idPatrocinio){  %>
+                    <label><%= patrocinios[i].nombre_patrocinio %> Costo: <%= patrocinios[i].monto %></label>
+                    <input type="radio" value="<%= patrocinios[i].id_patrocinio %>" name="idPatrocinio" checked required><br>
+                  <% } else {%>
+                    <label><%= patrocinios[i].nombre_patrocinio %> Costo: <%= patrocinios[i].monto %></label>
+                    <input type="radio" value="<%= patrocinios[i].id_patrocinio %>" name="idPatrocinio" required><br>
+                  <% } %>  
+                <% } %> 
+              <% } %>
+            </div>            
+         
+        <% } else {%>
+          <div class="paType_check">
+            <p>No puedes cambiar tu modo de patrocinio porque estás financiando a un equipo</p>
+          <div>
+        <% } %> 
+      </div>
+      </div>
+      <div class="sumb">
+      
+      </div>
+  </form>
+  </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>
