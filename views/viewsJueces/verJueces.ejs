@@ -1,0 +1,33 @@
+<%- include("../templates/header", { mainTitle:"UVM|Robotica|Jueces" }) %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+
+<body>
+  <%- include("../partials/disclaimer") %>
+  <%- include("../partials/nav") %>
+  <main>
+    <div class="mostrar_container">
+      <h1> <%= title %> </h1>
+      <hr>
+      <div class="boxes">
+        <% if (juez.length) { %>
+            <% for (let i = 0; i < juez.length; i++) { %>
+                <ul>
+                    <li><strong>ID:</strong> <%= juez[i].id_juez %></li> <br>
+                    <li>Nombre: <%= juez[i].nombre %></li> <br>
+                    <li>Email: <%= juez[i].email %></li> <br>
+                    <li>Teléfono: <%= juez[i].telefono %></li> <br>
+                </ul>
+                <hr>
+            <% } %>
+        <% } else { %>
+            <h1>No hay jueces registrados</h1>
+        <% } %>
+      </div>
+    </div>
+  </main>
+  <%- include("../partials/footer") %>
+</body>
+
+</html>
