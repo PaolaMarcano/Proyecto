@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main_nav {
+  background-color: hsl(158.2, 38.7%, 39%);
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  user-select: none;
+}
+
+.logo {
+  max-width: 100px;
+}
+
+.h2nav {
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  position: relative;
+  font-size: 1.6rem;
+  height: 100px;
+  top: 33px;
+  bottom: 0px;
+  margin-left: 10px;
+  width: 500px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 900;
+  user-select: none;
+}
+
+.container {
+  display: flex;
+  margin-left: 50px;
+}
+
+.containerB {
+  display: flex;
+  margin-left: 0%;
+  margin-bottom: 0%;
+}
+
+
+.main_nav ul {
+  font-family: Arial, Helvetica, sans-serif;
+  float: right;
+  position: relative;
+  top: 40px;
+
+}
+
+.main_nav ul li {
+  width: 250px;
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.main_nav ul li a:hover {
+  text-decoration: underline;
+}
+
+#welcome {
+  text-decoration: none;
+  user-select: none;
+  margin-top: 50px;
+}
+
+/* Menú lateral */
+.nav-lateral {
+  text-align: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background-color: hsl(158.2, 38.7%, 39%);
+  z-index: 1000;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  padding-right: 50px;
+}
+
+.nav-lateral-ul {
+  position: relative;
+  list-style: none;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+
+}
+
+.nav-lateral-li {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+
+}
+
+.nav-lateral-li a {
+  text-decoration: none;
+  margin: 30px;
+}
+
+.nav-lateral-li:hover {
+  background-color: #eee;
+}
+
+#Cerrar_sesion {
+  background-color: #ff5733;
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+  color: #000;
+  border: none;
+  width: 300px;
+  height: 50px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+#Cerrar_sesion:hover {
+  background-color: #f87f65;
+  cursor: pointer;
+}

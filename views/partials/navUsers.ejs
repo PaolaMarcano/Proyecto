@@ -1,5 +1,5 @@
 <head>
-    <link rel='stylesheet' href='/stylesheets/nav.css' />
+    <link rel='stylesheet' href='/stylesheets/nav2.css' />
     <link rel='stylesheet' href='/stylesheets/disclaimer.css' />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,23 +10,25 @@
     <script src="/javascript/cerrarSesion.js"></script> 
 </head>
 
-<nav class="main_nav">
-   <div class="container">
-    <img class="logo" src="/images/logo.png" alt="">
-    <h2 class="h2nav">Campeonato de Robótica UVM</h2>
-   </div>
-    <div class="nav-lateral">
-        <ul class="nav-lateral-ul">
-            <li class="list_ul_li welcome" id="welcome"><a href="#" style=" text-decoration: none;user-select: none; right: 100px;">Bienvenido, <%= user %></a></li><br>
-            <li class="nav-lateral-li"><a href="/equipo/verEquipo">Ver Equipos</a></li><br>
-            <li class="nav-lateral-li"><a href="/equipo/nuevoEquipo">Añadir Equipos</a></li><br>
-            <li class="nav-lateral-li"><a href="/patrocinador/nuevoPatrocinador">Patrocinar</a></li><br>
-            <li class="nav-lateral-li"><a href="/patrocinador/ver">Ver Patrocinador</a></li><br>
-            <li class="nav-lateral-li"><a href="/modalidad/nuevaModalidad">Nueva Modalidad</a></li><br>
-            <li class="nav-lateral-li"><a href="/modalidad/ver">Ver Modalidades</a></li><br>
-            <button id="Cerrar_sesion" onclick="cerrar_sesion()">Cerrar sesión</button>
-
-        </ul>
-      </div>
-      
-</nav>
+<body>
+    <nav class="main_nav">
+        <div class="container">
+         <img class="logo" src="/images/logo.png" alt="">
+         <h2 class="h2nav">Campeonato de Robótica UVM</h2>
+        </div>
+         <div class="nav-lateral">
+             <ul class="nav-lateral-ul">
+                 <li class="list_ul_li welcome" id="welcome"><a href="#" style=" text-decoration: none;user-select: none; right: 100px;">Bienvenido, <%= user %></a></li><br>
+                 <li class="nav-lateral-li"><a href="/equipo/verEquipo">Ver Equipos</a></li><br>
+                 <li class="nav-lateral-li"><a href="/equipo/nuevoEquipo">Añadir Equipos</a></li><br>
+                 <li class="nav-lateral-li"><a href="/patrocinador/nuevoPatrocinador">Patrocinar</a></li><br>
+                 <li class="nav-lateral-li"><a href="/patrocinador/ver">Ver Patrocinador</a></li><br>
+                 <li class="nav-lateral-li"><a href="/modalidad/nuevaModalidad">Nueva Modalidad</a></li><br>
+                 <li class="nav-lateral-li"><a href="/modalidad/ver">Ver Modalidades</a></li><br>
+                 <button id="Cerrar_sesion" onclick="cerrar_sesion()">Cerrar sesión</button>
+     
+             </ul>
+           </div>
+           
+     </nav>
+</body>
