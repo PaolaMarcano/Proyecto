@@ -1,0 +1,31 @@
+<%- include("../templates/header", { mainTitle:"UVM|Robotica|Equipos" }) %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+
+<body>
+  <%- include("../partials/disclaimer") %>
+  <%- include("../partials/nav") %>
+  <main>
+    <div class="mostrar_container">
+      <h1> <%= title %> </h1>
+      <hr>
+      <div class="boxes">
+        <h2> <%= equipo[0].nombre_de_equipo %> </h2>
+        <ul>
+            <li> Representante: <%= equipo[0].representante %> </li> <br>
+            <li> Email: <%= equipo[0].email %> </li> <br>
+            <li> Teléfono: <%= equipo[0].telefono %> </li> <br>
+            <li> Participantes: <%= equipo[0].participantes %> </li> <br>
+            <li> Comentario: <%= equipo[0].comentario %> </li> <br>
+          </ul>
+          <form action="<%= equipo[0].id_equipo %>/?_method=DELETE" method="post">
+            <input type="submit" class="button" value="Confirmar">
+          </form>
+      </div>
+    </div>
+  </main>
+  <%- include("../partials/footer") %>
+</body>
+
+</html>

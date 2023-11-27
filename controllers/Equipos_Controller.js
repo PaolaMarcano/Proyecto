@@ -92,6 +92,11 @@ class EquipoController {
             Equipo_model.eliminar_categoria_inscrita(idEquipo, idCategoria).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
         })
     }
+    buscar_equipo(id){
+        return new Promise((resolve, reject) => {
+            Equipo_model.buscar_equipo(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
 }
 
 module.exports = new EquipoController();

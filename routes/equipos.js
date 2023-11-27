@@ -63,6 +63,20 @@ router.delete('/sin_categoria/:index/:index2', checkLogin, function (req, res, n
 });
 
 
+/*Editar equipo*/
+router.put('/editar_equipo/:editar', checkLogin, function (req, res, next) {
+    Equipos_Controller.editar_equipo(req.params.editar, req.body)
+        .then((resultados) => {
+            res.status(resultados.codigo).send(resultados.mensaje);
+        })
+        .catch((error) => {
+            res.status(error.codigo).send(error.mensaje);
+        })
+    console.table(req.body)
+});
+
+
+
 /* Views */
 
 router.get('/verEquipo', checkAdminView, function (req, res, next) {
@@ -96,19 +110,7 @@ router.get('/verEquipoUser', checkLoginView, function (req, res, next) {
 });
 
 
-/*Editar equipo*/
-router.put('/editar_equipo/:editar', checkLogin, function (req, res, next) {
-    Equipos_Controller.editar_equipo(req.params.editar, req.body)
-        .then((resultados) => {
-            res.status(resultados.codigo).send(resultados.mensaje);
-        })
-        .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
-        })
-    console.table(req.body)
-});
-
-/* VIEWS */
+/* VIEWS POST*/
 
 router.get('/nuevoEquipo', checkLoginView, function (req, res, next) {
     Modalidad_Controller.poder_inscribir().then((resultados) => {
@@ -142,5 +144,67 @@ router.post('/nuevoEquipo', checkLoginView, function (req, res, next) {
         res.status(400).send("Inscribete en alguna categoría")
     }
 })
+
+
+/* VIEWS PUT*/
+
+router.get('/editarEquipo/:index', checkLoginView,function(req,res, next){
+    Equipos_Controller.buscar_equipo(req.params.index).then((resultado) => {
+        let equipo_a_editar = resultado;
+        res.render('./viewsEquipos/editarEquipo',{title: 'Equipo',equipo: equipo_a_editar});
+    })
+    .catch((error) => {
+        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+        else { res.status(500).send(error) }
+    })
+});
+
+router.put('/editarEquipo/:index',checkLoginView,function(req,res, next){
+    let decoded = decodificar(req.cookies.jwt);
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    let equipo = req.body;
+    equipo.id_user = decoded.id;
+    equipo.verificado = "verificado";
+    Equipos_Controller.editar_equipo(req.params.index, equipo)
+    .then((resultados) => {
+        Equipos_Controller.ver_equipos_views().then((resultados) => {
+            if (resultados == null) { res.status(404).send("No se han registrado equipos") }
+            else {
+                res.render('./viewsEquipos/verEquipos', { title: 'Equipos Participantes', tabla: resultados, subtitulos: "nombre_de_equipo" });
+            };
+        }).catch((error) => {
+            if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+            else { res.status(500).send(error) }
+        })
+    })
+    .catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+
+
+/* VIEWS DELETE */
+
+router.get('/eliminarEquipo/:index', checkAdmin,function(req,res, next){
+    Equipos_Controller.buscar_equipo(req.params.index).then((resultado) => {
+        let equipo_a_eliminar = resultado;
+        res.render('./viewsEquipos/eliminarEquipo',{title: '¿Quiere Eliminar este equipo?',equipo: equipo_a_eliminar});
+    })
+    .catch((error) => {
+        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
+        else { res.status(500).send(error) }
+    })
+});
+
+router.delete('/eliminarEquipo/:index', checkAdmin,function(req,res, next){
+    Equipos_Controller.eliminar_equipo(req.params.index).then((resultados) => {
+        res.send("Eliminado correctamente")
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+
 
 module.exports = router; 

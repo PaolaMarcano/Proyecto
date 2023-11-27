@@ -1,0 +1,37 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Equipo"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+  <title><%= title %></title>
+</head>
+  
+  <body>
+      <%-include("../partials/disclaimer")%>
+      <%-include("../partials/nav")%>    
+        </main>
+      <div class="form_container">
+        <form action="<%= equipo[0].id_equipo %>/?_method=PUT" method="post" class="form_r">
+          <div class="register_container">
+            <div class="f_form">
+              <label id="titulo">Representante</label><br>
+              <input class="input_form" type="text" name="representante" value="<%= equipo[0].representante %>" required><br>
+              <label id="titulo">Email</label><br>
+              <input class="input_form" type="email" name="email" value="<%= equipo[0].email %>" required><br>
+              <label id="titulo">Teléfono</label><br>
+              <input class="input_form" type="text" name="telefono" value="<%= equipo[0].telefono %>"  required><br>
+              <label id="titulo">Nombre del Equipo</label><br>
+              <input class="input_form" type="text" name="nombre_de_equipo" value="<%= equipo[0].nombre_de_equipo %>"  required><br>
+              <label id="titulo">Participantes</label><br>
+              <input class="input_form" type="text" name="participantes" value="<%= equipo[0].participantes %>"  required><br>
+              <label id="titulo">Comentario (opcional)</label><br>
+              <input class="input_form" type="text"  name="comentario" value="<%= equipo[0].comentario %>" ><br>
+              <input type="submit" class="button" value="Actualizar"> 
+            </div>
+
+          </div>
+        </form>
+      </div>
+        </main>
+
+      <%-include("../partials/footer")%>
+  </body>
+</html>

@@ -145,7 +145,7 @@ class EquipoModel {
     }
     editar_equipo(id, equipo) {
         return new Promise((resolve, reject) => {
-            let Editar_equipo = new Equipo(equipo.representante, equipo.email, equipo.telefono, equipo.nombre_de_equipo, equipo.participantes, equipo.comentario, equipo.id_user);
+            let Editar_equipo = new Equipo(equipo.representante, equipo.email, equipo.telefono, equipo.nombre_de_equipo, equipo.participantes, equipo.comentario, equipo.id_user, equipo.verificado);
             if (validarClass(Editar_equipo, reject, ["comentario"], 400) !== true) return;
             connection.query('UPDATE `equipos` SET ? WHERE id_equipo = ?', [Editar_equipo, id], function (err, rows, fields) {
                 if (err) {
@@ -191,6 +191,21 @@ class EquipoModel {
                         resolve(new Respuesta(200, "Se ha eliminado exitosamente", rows));
                     } else {
                         reject(new Respuesta(404, rows, rows));
+                    }
+                }
+            })
+        })
+    }
+    buscar_equipo(id){
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM `equipos` WHERE `id_equipo` = ?', [id], function (err, rows, fields) {
+                if (err) {
+                    reject(err)
+                } else {
+                    if (rows.length == 0) {
+                        reject("No hay resultados")
+                    } else {
+                        resolve(rows)
                     }
                 }
             })
