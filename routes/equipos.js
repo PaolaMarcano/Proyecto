@@ -166,7 +166,7 @@ router.put('/editarEquipo/:index',checkLoginView,function(req,res, next){
     equipo.id_user = decoded.id;
     equipo.verificado = "verificado";
     Equipos_Controller.editar_equipo(req.params.index, equipo)
-    .then((resultados) => {
+    .then(() => {
         Equipos_Controller.ver_equipos_views().then((resultados) => {
             if (resultados == null) { res.status(404).send("No se han registrado equipos") }
             else {
