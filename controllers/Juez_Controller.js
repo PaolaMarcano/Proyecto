@@ -11,6 +11,16 @@ class JuezController{
             Juez_model.buscar_juez(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
         })
     }
+    ingresar_juez(juez) {
+        return new Promise((resolve, reject) => {
+            Juez_model.ingresar_juez(juez).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
+    ingresar_jurado(jurado){
+        return new Promise((resolve, reject) => {
+            Juez_model.ingresar_jurado(jurado).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
     eliminar_juez(id) {
         return new Promise((resolve, reject) => {
             if (id != undefined && !isNaN(Number(id))) {

@@ -1,0 +1,50 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Jueces"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+    <% if(eventos.length != 0){  %>
+        <main>
+            <div class="form_container"> 
+                <form action method="post" class="form_r">
+                  <div class="register_container">
+                    <div class="f_form">
+                      <h1 class="register"><%= title %></h1>
+                      <label id="titulo">Nombre</label><br>
+                      <input type="text" class="input_form" name="nombre" required> <br>
+                      <label id="titulo">Email</label><br>
+                      <input type="email" class="input_form" name="email" required> <br>
+                      <label id="titulo">Teléfono</label><br>
+                      <input type="text" class="input_form" name="telefono" required> <br>
+                      <input type="submit" class="button" value="Añadir">
+                    </div>
+
+                    <div class="type">
+                        <h2>Seleccione los eventos en los que quiere participar</h2>
+                        <div class="paType_check"> 
+                            <%  for (let i = 0; i < eventos.length; i++) { %>
+                                <label>Modalidad: <%= eventos[i].nombre_modalidad %> Categoria: <%= eventos[i].nombre_categoria %> </label>
+                                <input type="checkbox" value="<%= eventos[i].id_evento %>" name="eventos" ><br>
+                            <% } %>
+                        </div> 
+                    </div>
+        
+                  </div>
+        
+                </form>
+        
+            </div>
+         </main>
+    <% } else {%>
+        <h1>Lo sentimos no hay eventos en los que puedas participar</h1>
+    <% } %>  
+
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

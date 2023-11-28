@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const Juez_Controller = require('../controllers/Juez_Controller');
-const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
+const Eventos_Controller = require('../controllers/Eventos_Controller');
+const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews');
 
 /*GET VIEWS*/
 
@@ -13,6 +14,38 @@ router.get('/verJueces', checkLoginView, function(req, res, next){
         res.status(error.codigo).send(error.mensaje);
     })
 })
+
+
+/* POST VIEWS */
+
+router.get('/nuevoJuez', checkLoginView,function(req,res, next){
+    Eventos_Controller.ver_eventos_views().then((resultados) => {
+        let eventos = resultados;
+        res.render('./viewsJueces/nuevoJuez', { title: 'Ingresar un Juez', eventos: eventos});
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+router.post('/nuevoJuez', checkLoginView,function(req,res, next){
+    if (req.body.eventos) {
+        if (req.body.eventos.length == 1) {
+            req.body.eventos = [req.body.eventos]
+        }
+        let juez = req.body
+        Juez_Controller.ingresar_juez(juez).then((jurado) => {
+            Juez_Controller.ingresar_jurado(jurado).then(() => {
+                res.redirect('./verJueces')
+             }).catch((error) => {
+                 res.status(error.codigo).send(error.mensaje);
+             })
+        }).catch((error) => {
+            res.status(error.codigo).send(error.mensaje);
+        })
+    } else {
+        res.status(400).send("Participa en algún evento")
+    } 
+});
 
 
 /*DELETE VIEWS*/

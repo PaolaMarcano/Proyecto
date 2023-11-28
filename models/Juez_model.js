@@ -47,6 +47,39 @@ class JuezModel{
             })
         })
     }
+    ingresar_juez(juez){
+        return new Promise((resolve, reject) => {
+            let Nuevo_juez = new Juez(juez.nombre, juez.email, juez.telefono)
+            if (validarClass(Nuevo_juez, reject, [], 400) !== true) return;
+            connection.query('INSERT INTO `jueces` SET ?', Nuevo_juez, function (err, rows, fields) {
+                if (err) {
+                    if (err.errno == 1062) { reject(new Respuesta(400, err.sqlMessage.substring(16).replace('for key', 'ya existe como'), err)); }
+                    else if (err.errno == 1048) { reject(new Respuesta(400, "No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''), err)); }
+                    else { reject(new Respuesta(500, err, err)) }
+                } else {
+                    let retorna = { eventos: juez.eventos, idDelJuez: rows.insertId }
+                    resolve(retorna)
+                }
+            })
+        })
+    }
+    ingresar_jurado(jurado){
+        return new Promise((resolve, reject) => {
+            for (let i = 0; i < jurado.eventos.length; i++) { //Insertar varias inscripciones
+                let idDeEvento = jurado.eventos[i];
+                let Nuevo_jurado = new Jurado(idDeEvento, jurado.idDelJuez);
+                if (validarClass(Nuevo_jurado, reject, [], 400) !== true) return;
+                connection.query('INSERT INTO `jurado` SET ?', Nuevo_jurado, function (errFinal, rowsFinal, fieldsFinals) {
+                    if (errFinal) {
+                        reject(new Respuesta(500, errFinal, errFinal));
+                    } else if (rowsFinal) {
+                        if (rowsFinal.affectedRows > 0) console.log("Ingresado al evento", rowsFinal.insertId);
+                    }
+                })
+            }
+            resolve()
+        })
+    }
     eliminar_juez(id){
         return new Promise((resolve, reject) => {
             connection.query('DELETE FROM `jueces` WHERE `id_juez` = ?', id, function (err, rows, fields) {

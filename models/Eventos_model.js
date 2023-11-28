@@ -28,6 +28,22 @@ class EventoModel{
 
       })
   }
+  ver_eventos_views(){
+    return new Promise((resolve, reject)=>{
+      connection.query('SELECT `id_evento`, `nombre_modalidad`, `nombre_categoria`, `fecha_del_evento`, `sede` FROM `eventos`JOIN `categorias` ON `id_categoria` = `idCategoria` JOIN `modalidades` ON `id_modalidad` = `idModalidad`', function (err, rows, fields){
+        if (err){
+          reject (new Respuesta(500,err,err));
+        } else if(rows){
+          if (rows.length==0){
+            reject (new Respuesta (404, 'No existen eventos registrados', rows));
+          } else{
+            resolve(rows)
+          }
 
+        }
+
+      })
+    })
+  }
 }
 module.exports = new EventoModel();
