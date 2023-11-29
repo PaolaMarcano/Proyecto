@@ -1,6 +1,6 @@
 <%-include("../templates/header",{mainTitle:"UVM|Robotica|Eventos"})%>
 <head> 
-  <link rel='stylesheet' href='/stylesheets/patro.css' />
+  <link rel='stylesheet' href='/stylesheets/mostrar.css' />
 
 </head>
   
@@ -10,22 +10,20 @@
 
  <main>
     <div class="mostrar_container"> 
-                <h1><%= title %></h1>
-                <hr>
-                <div class="boxes">
-                    <% if(eventos.length) { %>
-                        <%  for (let i = 0; i < eventos.length; i++) { %>
-                            <h2> <%= eventos[i].sede %> </h2>
-                          <ul>
-                            <li> Fecha del Evento: <%= eventos[i].fecha_del_evento %> </li> <br>
-                            <li> Pertenece a categoría: <%= eventos[i].nombre_categoria %> </li> <br>
-                          </ul>
-                          <hr>
-                    <% } %>
-                    <% } %>
-
-
-            </div>
+        <h1><%= title %></h1>
+        <hr>
+        <div class="boxes">
+          <% if(eventos.length) { %>
+            <%  for (let i = 0; i < eventos.length; i++) { %>
+              <h2> <%= eventos[i].sede %> </h2>
+                <ul>
+                  <li> Fecha del Evento: <%= eventos[i].fecha_del_evento %> </li> <br>
+                  <li> Pertenece a la categoría: <%= eventos[i].nombre_categoria %> </li> <br>
+                </ul>
+              <hr>
+              <% } %>
+          <% } %>
+        </div>
                                 
     </div>
  </main>

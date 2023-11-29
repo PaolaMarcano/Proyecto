@@ -168,10 +168,10 @@ router.put('/editarCategoria/:index', checkAdminView,function(req,res, next){
 /* DELETE VIEWS */
 
 router.get('/eliminarCategoria/:index', checkAdminView,function(req,res, next){
-    Categoria_Controller.buscar_categoria_id(req.params.index) .then((resultado) => {
+    Categoria_Controller.buscar_categoria_id(req.params.index).then((resultado) => {
         let categoria_a_eliminar = resultado;
         console.log(categoria_a_eliminar)
-        res.render('./viewsCategorias/eliminarCategoria',{title: '¿Quiere Eliminar está categoría?',categoria: categoria_a_eliminar});
+        res.render('./viewsCategorias/eliminarCategoria',{title: '¿Quiere Eliminar esta categoría?',categoria: categoria_a_eliminar});
     })
     .catch((error) => {
         res.status(error.codigo).send(error.mensaje);

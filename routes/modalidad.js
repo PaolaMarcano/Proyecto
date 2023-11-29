@@ -3,6 +3,7 @@ var router = express.Router();
 const Modalidad_Controller = require('../controllers/Modalidad_Controller');
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkAdminView } = require('../auth/authViews');
+const Modalidad_model = require('../models/Modalidad_model');
 
 /* GET modalidades */
 router.get('/', function (req, res, next) {
@@ -17,7 +18,31 @@ router.get('/', function (req, res, next) {
             res.status(error.codigo).send(error.mensaje);
         })
 });
+
+router.get('/verModalidadYCategoria/:index', function (req, res, next) {
+    Modalidad_Controller.ver_modalidad_y_categoria(req.params.index)
+        .then((resultados) => {
+            res.send(resultados.resultado);
+        })
+        .catch((error) => {
+            res.status(error.codigo).send(error.mensaje);
+        })
+});
+
+router.post('/', checkAdmin, function (req, res, next) {
+    //console.log('en routes', req.body);
+    Modalidad_Controller.ingresar_modalidad(req.body)
+        .then((resultados) => {
+            res.send(resultados.resultado);
+        })
+        .catch((error) => {
+            res.status(error.codigo).send(error.mensaje);
+        })
+});
+
+
 /* VIEWS */
+
 router.get('/ver', function (req, res, next) {
     Modalidad_Controller.ver_modalidadYcat_viewsPublic().then((resultados) => {
         //console.log(resultados)
@@ -35,6 +60,8 @@ router.get('/ver', function (req, res, next) {
     })
 });
 
+/* VIEWS POST */
+
 router.get('/nuevaModalidad', checkAdminView, function (req, res, next) {
     Modalidad_Controller.ver_modalidad().then((resultados) => {
         let nombre_modalidad = resultados;
@@ -45,7 +72,7 @@ router.get('/nuevaModalidad', checkAdminView, function (req, res, next) {
     })
 
 });
-/* VIEWS POST */
+
 router.post('/nuevaModalidad', checkAdminView, function (req, res, next) {
     //console.log('en routes', req.body);
     Modalidad_Controller.ingresar_modalidad(req.body)
@@ -56,24 +83,26 @@ router.post('/nuevaModalidad', checkAdminView, function (req, res, next) {
             res.status(error.codigo).send(error.mensaje);
         })
 });
-router.get('/:index', function (req, res, next) {
-    Modalidad_Controller.ver_modalidad_y_categoria(req.params.index)
-        .then((resultados) => {
-            res.send(resultados.resultado);
-        })
-        .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
-        })
+
+
+/*DELETE VIEWS*/
+
+router.get('/eliminarModalidad/:index', checkAdminView,function(req,res, next){
+    Modalidad_Controller.buscar_modalidad(req.params.index).then((resultado) => {
+        let modalidad_a_eliminar = resultado;
+        res.render('./viewsModalidades/eliminarModalidad',{title: '¿Quiere Eliminar esta modalidad?',modalidad: modalidad_a_eliminar});
+    })
+    .catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
 });
-router.post('/', checkAdmin, function (req, res, next) {
-    //console.log('en routes', req.body);
-    Modalidad_Controller.ingresar_modalidad(req.body)
-        .then((resultados) => {
-            res.send(resultados.resultado);
-        })
-        .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
-        })
+
+router.delete('/eliminarModalidad/:index', checkAdminView,function(req,res, next){
+    Modalidad_model.eliminar_modalidad(req.params.index).then((resultado) => {
+        res.send("Eliminada con exito");
+    }).catch((error) => {
+        res.status(500).send(error)
+    })
 });
 
 module.exports = router; 

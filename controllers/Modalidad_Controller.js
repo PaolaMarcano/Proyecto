@@ -61,6 +61,22 @@ class ModalidadController {
             Modalidad_Model.poder_inscribir().then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
         })
     }
+    buscar_modalidad(id){
+        return new Promise((resolve, reject) => {
+            Modalidad_Model.buscar_modalidad(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
+    eliminar_modalidad(id){
+        return new Promise((resolve, reject) => {
+            if (id != undefined && !isNaN(Number(id))) {
+                Modalidad_Model.eliminar_modalidad(id)
+                    .then((resultados) => { resolve(resultados) })
+                    .catch((error) => { reject(error) });
+            } else {
+                return reject(new Respuesta(400, 'No se ingresó un ID válido: ' + id, id));
+            }
+        })
+    }
 }
 
 module.exports = new ModalidadController();

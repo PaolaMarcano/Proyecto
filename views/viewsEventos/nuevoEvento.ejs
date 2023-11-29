@@ -21,9 +21,9 @@
                     <input type="submit" class="button" value="Añadir">
              </div>
                 
-             <div>
+             <div class="type">
                 <h2>Selecciona de que categoría se realizará el evento</h2>
-                <div>
+                <div class="paType_check">
                     <%  for (let i = 0; i < categorias.length; i++) { %>
                         <label><%= categorias[i].nombre_categoria %></label>
                         <input type="radio" value="<%= categorias[i].id_categoria %>" name="idCategoria" required><br>
