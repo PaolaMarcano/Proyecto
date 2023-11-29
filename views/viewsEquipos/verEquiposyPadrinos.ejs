@@ -1,0 +1,35 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Equipos"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/mostrar.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+    <div class="mostrar_container"> 
+        <h1><%= title %></h1>
+        <hr>
+        <div class="boxes">
+          <% if(equipos.length) { %>
+            <%  for (let i = 0; i < equipos.length; i++) { %>
+              <h2> <%= equipos[i].nombre_de_equipo %> </h2>
+                <ul>
+                  <li> <b>Representante:</b> <%= equipos[i].representante %> </li> <br>
+                  <li> <b>Participantes:</b> <%= equipos[i].participantes %> </li><br>
+                  <li> <b>Padrino:</b> <%= equipos[i].persona_de_contacto %> </li><br>
+                  <li> <b>Nombre Comercial:</b> <%= equipos[i].nombre_comercial %> </li><br>
+                </ul>
+              <hr>
+              <% } %>
+          <% } %>
+        </div>
+                                
+    </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

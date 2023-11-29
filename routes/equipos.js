@@ -205,6 +205,14 @@ router.delete('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
     })
 });
 
-
+/* VIEWS GET*/
+router.get('/verPadrinos', function (req, res, next) {
+    Equipos_Controller.ver_padrinos().then((resultados) => {
+        let equipos = resultados;
+        res.render('./viewsEquipos/verEquiposyPadrinos',{title:'Equipos y sus padrinos',equipos:equipos});
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
 
 module.exports = router; 
