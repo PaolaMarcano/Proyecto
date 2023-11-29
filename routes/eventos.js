@@ -50,9 +50,9 @@ router.post('/nuevoEvento', function (req, res, next) {
         })
 
 });
-
-router.get('/verEvento',checkLoginView, function (req, res, next) { 
-         Eventos_Controller.ver_eventos().then((resultados) => {
+/* VIEW GET */
+router.get('/verEvento', function (req, res, next) { 
+         Eventos_Controller.ver_eventos_views().then((resultados) => {
                 let eventos= resultados; 
                 res.render('./viewsEventos/verEvento',{title:'Eventos',eventos:eventos});
          }).catch((error) => {
