@@ -186,7 +186,7 @@ router.put('/editarEquipo/:index',checkLoginView,function(req,res, next){
 
 /* VIEWS DELETE */
 
-router.get('/eliminarEquipo/:index', checkAdmin,function(req,res, next){
+router.get('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
     Equipos_Controller.buscar_equipo(req.params.index).then((resultado) => {
         let equipo_a_eliminar = resultado;
         res.render('./viewsEquipos/eliminarEquipo',{title: '¿Quiere Eliminar este equipo?',equipo: equipo_a_eliminar});
@@ -197,7 +197,7 @@ router.get('/eliminarEquipo/:index', checkAdmin,function(req,res, next){
     })
 });
 
-router.delete('/eliminarEquipo/:index', checkAdmin,function(req,res, next){
+router.delete('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
     Equipos_Controller.eliminar_equipo(req.params.index).then((resultados) => {
         res.send("Eliminado correctamente")
     }).catch((error) => {

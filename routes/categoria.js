@@ -50,7 +50,7 @@ router.get('/participantes', checkAdmin, function (req, res, next) {
     })
 });
 
-/* router.put('/:editar', checkAdmin, function (req, res, next) {
+router.put('/:editar', checkAdmin, function (req, res, next) {
     //console.log('en routes', req.params.editar, req.body);
     Categoria_Controller.editar_categoria(req.params.editar, req.body)
         .then((resultados) => {
@@ -61,7 +61,7 @@ router.get('/participantes', checkAdmin, function (req, res, next) {
             //console.info(error);
             res.status(error.codigo).send(error.mensaje);
         })
-}); */
+}); 
 
 router.patch('/:editar', checkAdmin, function (req, res, next) {
     //console.log('en routes', req.params.editar, req.body);
@@ -75,6 +75,7 @@ router.patch('/:editar', checkAdmin, function (req, res, next) {
             res.status(error.codigo).send(error.mensaje);
         })
 });
+
 /* DELETE */
 router.delete('/:index', checkAdmin, function (req, res, next) {
     Categoria_Controller.eliminar_categoria(req.params.index).then((resultados)=>{
