@@ -1,0 +1,44 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Eventos"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/patro.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+    <div class="form_container"> 
+        <form action method="post" class="form_r">
+          <div class="register_container">
+             <div class="f_form">
+                    <h1 class="register"><%= title %></h1>
+                    <label id="titulo">Fecha del Evento</label><br>
+                    <input type="datetime-local" class="input_form" name="fecha_del_evento" required> <br>
+                    <label id="titulo">Sede</label><br>
+                    <input type="text" class="input_form" name="sede" required> <br>
+                    <input type="submit" class="button" value="Añadir">
+             </div>
+                
+             <div>
+                <h2>Selecciona de que categoría se realizará el evento</h2>
+                <div>
+                    <%  for (let i = 0; i < categorias.length; i++) { %>
+                        <label><%= categorias[i].nombre_categoria %></label>
+                        <input type="radio" value="<%= categorias[i].id_categoria %>" name="idCategoria" required><br>
+                    <% } %>
+                </div>
+             </div>
+
+
+          </div>
+
+        </form>
+
+    </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>
