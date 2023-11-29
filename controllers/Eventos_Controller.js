@@ -17,5 +17,10 @@ class EventoController{
           .catch((error) => { reject(error) });     
     })
   }
+  ingresar_evento(evento){
+    return new Promise((resolve,reject)=>{
+        Eventos_model.ingresar_evento(evento).then((resultado)=> { resolve(resultado)}).catch((error)=>{reject (error)});
+    })
+}
 }
 module.exports = new EventoController();
