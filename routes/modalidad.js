@@ -3,7 +3,6 @@ var router = express.Router();
 const Modalidad_Controller = require('../controllers/Modalidad_Controller');
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkAdminView } = require('../auth/authViews');
-const Modalidad_model = require('../models/Modalidad_model');
 
 /* GET modalidades */
 router.get('/', function (req, res, next) {
@@ -98,7 +97,7 @@ router.get('/eliminarModalidad/:index', checkAdminView,function(req,res, next){
 });
 
 router.delete('/eliminarModalidad/:index', checkAdminView,function(req,res, next){
-    Modalidad_model.eliminar_modalidad(req.params.index).then((resultado) => {
+    Modalidad_Controller.eliminar_modalidad(req.params.index).then((resultado) => {
         res.send("Eliminada con exito");
     }).catch((error) => {
         res.status(500).send(error)
