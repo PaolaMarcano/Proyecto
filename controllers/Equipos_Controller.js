@@ -97,6 +97,11 @@ class EquipoController {
             Equipo_model.buscar_equipo(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
         })
     }
+    ver_cat_equipos(idTeam) {
+        return new Promise((resolve, reject) => {
+            Equipo_model.ver_cat_equipos(idTeam).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) });
+        })
+    }
 }
 
 module.exports = new EquipoController();
