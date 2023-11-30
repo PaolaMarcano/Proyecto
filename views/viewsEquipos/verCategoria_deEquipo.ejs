@@ -20,7 +20,7 @@
             <ul>
             <%  for (let i = 0; i < equipos.length; i++) { %>
                 <% if(id_cat == null) { %>
-                  <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br>
+                  <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br><br>
                 <% } else { %>
                   <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br>
                   <a class="eliminar" href="./<%= equipos[i].id_equipo %>/<%= equipos[i].id_categoria %> ">Eliminar Categoría</a><br>
