@@ -1,0 +1,26 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+<%-include("../partials/nav")%>
+
+<body>
+    <main>
+        <div class="mostrar_container">
+          <h1> <%= title %> </h1>
+          <hr>
+          <div class="boxes">
+            <h2> <%= usuario.nombre_usuario %> </h2>
+            <ul>
+                <li> Cédula: <%= usuario.cedula_usuario %> </li> <br>
+                <li> Email: <%= usuario.correo_usuario %> </li> <br>
+                <li> Rol: <%= usuario.rol_usuario %> </li> <br>
+              </ul>
+              <form action="<%= usuario.id_usuario %>/?_method=DELETE" method="post">
+                <input type="submit" class="button" value="Confirmar">
+              </form>
+          </div>
+        </div>
+      </main>
+</body>

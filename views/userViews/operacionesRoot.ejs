@@ -1,0 +1,36 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+<%-include("../partials/nav")%>
+
+
+<body>
+  <div class="form_container">
+    <form action method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+          <h1 class="register"><%= title %></h1>
+          <div class="mostrar_container">
+            <div class="boxes">
+              <% if(usuarios.length) { %>
+                <%  for (let i = 0; i < usuarios.length; i++) { %>
+                    <% if(usuarios[i].cedula_usuario != 0 && usuarios[i].nombre_usuario != "Root") { %>
+                        <h2> <%= usuarios[i].nombre_usuario %> </h2>
+                        <p> Cédula: <%= usuarios[i].cedula_usuario %> </p> <br>
+                        <p> Rol: <%= usuarios[i].rol_usuario %> </p> <br>
+                        <a class="cambiar_rol" href="./user_manager/rol/<%= usuarios[i].cedula_usuario %> ">Cambiar Rol</a>
+                        <a class="eliminar" href="./user_manager/eliminar/<%= usuarios[i].cedula_usuario %> ">Eliminar</a>
+                        <hr>
+                    <% } %>
+                  <% } %>
+              <% } %>
+            </div>
+          </div>        
+        </div>
+      </div>
+    </form>
+  </div>
+
+</body>

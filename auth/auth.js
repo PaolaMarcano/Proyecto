@@ -65,7 +65,7 @@ function checkRoot(req, res, next) {
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
     
     if (Utoken.rol !== 'root') {
-        return res.status(403).send(['Usted no posee permisos para cambiar los roles:', Utoken]);
+        return res.status(403).send(['Usted no posee permisos de usuario root', Utoken]);
     };
 
     if (Utoken.id == req.body.cedula_usuario) return res.status(403).send(['No puede cambiarse a sí mismo de rol:', Utoken]);

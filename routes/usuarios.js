@@ -54,7 +54,7 @@ router.put('/:index', checkLogin, function (req, res, next) {
 });
 
 /* DELETE user. */
-router.delete('/:index', checkAdmin, function (req, res, next) {
+router.delete('/:index', checkRoot, function (req, res, next) {
   UsuarioController.borrar_usuario(req.params.index).then((resultado) => {
     res.send(resultado)
   }).catch((error) => {

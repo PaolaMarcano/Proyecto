@@ -61,7 +61,7 @@ function checkAdminView(req, res, next) {
 
 function checkRootView(req, res, next) {
     //console.log(req.headers.authorization);
-    let reqToken = req.headers.authorization;
+    let reqToken = req.cookies.jwt;
     if (reqToken == undefined) return res.redirect('../../home/login');
 
     const { valLogin, Utoken } = checkView(reqToken);

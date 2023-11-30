@@ -1,0 +1,37 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css">
+</head>
+<%-include("../partials/nav")%>
+
+<body>
+  <div class="form_container">
+      <div class="register_container">
+          <h1 class="register"><%= title %></h1>
+          <form action="<%= usuario.cedula_usuario %>/?_method=PATCH" method="post" class="form_r">
+            <div class="register_container">
+              <div class="f_form">
+                <h2> <%= usuario.nombre_usuario %> </h2>
+                <%  if(usuario.rol_usuario == "admin") { %>
+                    <label>Admin</label>
+                    <input type="radio" value="admin" name="rol_usuario" checked required><br>
+                <% } else {%>
+                    <label>Admin</label>
+                    <input type="radio" value="admin" name="rol_usuario" required><br>
+                <% } %>
+                <% if(usuario.rol_usuario == "editor"){ %>
+                    <label>Editor</label>
+                    <input type="radio" value="editor" name="rol_usuario" checked required><br>
+                <% } else {%>
+                    <label>Editor</label>
+                    <input type="radio" value="editor" name="rol_usuario" required><br>
+                <% } %>
+                <input type="submit" class="button" value="Actualizar"> 
+              </div>
+            </div>
+          </form>
+      </div>
+  </div>
+
+</body>

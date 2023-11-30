@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const UsuarioController = require('../controllers/Usuario_Controller');
 const { checkLogin, checkAdmin, decodificar } = require('../auth/auth');
-const { checkLoginView, resDateTime } = require('../auth/authViews')
+const { checkLoginView, checkRootView, resDateTime } = require('../auth/authViews');
+const Usuario_Controller = require('../controllers/Usuario_Controller');
 
 
 
@@ -91,6 +92,59 @@ router.put('/home/edit/:index', function (req, res, next) {
   } else {
     res.render('error', { message: "Body vacío", error: { status: 400 } })
   }
+});
+
+
+
+/*Para el usuario ROOT*/
+
+router.get('/user_manager', checkRootView, function (req, res, next) {
+  UsuarioController.ver_usuarios().then((resultados) => {
+    let usuarios = resultados
+    res.render('../views/userViews/operacionesRoot', { mainTitle: "Cambiar Rol", title: "Operación root", usuarios: usuarios});
+  }).catch((error)=>{
+    res.status(error.codigo).send(error.mensaje);
+  }) 
+});
+
+/* PATCH user.(editar rol) */
+
+router.get('/user_manager/rol/:index', checkRootView , function (req, res, next) {
+  UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
+    let usuario_encontrado = resultados
+    res.render('../views/userViews/cambiarRolForm', { mainTitle: "Cambiar Rol", title: "Operación root", usuario: usuario_encontrado});
+  }).catch((error)=>{
+      res.status(error.codigo).send(error.mensaje);
+  }) 
+});
+
+
+router.patch('/user_manager/rol/:index', checkRootView, function (req, res, next) {
+  let usuario_con_rol_nuevo = {rol_usuario: req.body.rol_usuario, cedula_usuario: req.params.index}
+  UsuarioController.cambiar_rol(usuario_con_rol_nuevo).then(()=>{
+    res.send("Actualizado correctamente")
+  }).catch((error)=>{
+      res.status(error.codigo).send(error.mensaje);
+  }) 
+}); 
+
+/* DELETE user.(eliminar usuario) */
+
+router.get('/user_manager/eliminar/:index', checkRootView, function (req, res, next) {
+  UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
+    let usuario_encontrado = resultados
+    res.render('../views/userViews/eliminarUsuario', { mainTitle: "Eliminar", title: "¿Quiere eliminar este usuario?", usuario: usuario_encontrado});
+  }).catch((error)=>{
+      res.status(error.codigo).send(error.mensaje);
+  }) 
+});
+
+router.delete('/user_manager/eliminar/:index', checkRootView, function (req, res, next) {
+  UsuarioController.borrar_usuario(req.params.index).then(()=>{
+    res.send("Eliminado correctamente")
+  }).catch((error)=>{
+      res.status(error.codigo).send(error.mensaje);
+  }) 
 });
 
 module.exports = router;

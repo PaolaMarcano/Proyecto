@@ -13,7 +13,7 @@ if (!result.parsed.JWT_SECRET) {
 class UsuarioModel {
     mostrar_usuarios() {
         return new Promise((resolve, reject) => {
-            connection.query('SELECT `id_usuario`, `cedula_usuario`, `nombre_usuario` FROM `usuarios`', function (err, rows, fields) {
+            connection.query('SELECT `id_usuario`, `cedula_usuario`, `nombre_usuario`, `rol_usuario` FROM `usuarios`', function (err, rows, fields) {
                 if (err) {
                     reject(new Respuesta(500, err, err))
                 } else {
@@ -39,7 +39,7 @@ class UsuarioModel {
     }
     buscar_usuario_cedula(cedula) {
         return new Promise((resolve, reject) => {
-            connection.query('SELECT `id_usuario`, `cedula_usuario`, `nombre_usuario`, `correo_usuario` FROM `usuarios` WHERE `cedula_usuario` = ?', [cedula], function (err, rows, fields) {
+            connection.query('SELECT `id_usuario`, `cedula_usuario`, `nombre_usuario`, `correo_usuario`, `rol_usuario` FROM `usuarios` WHERE `cedula_usuario` = ?', [cedula], function (err, rows, fields) {
                 if (err) {
                     reject(new Respuesta(500, err, err));
                 } else if (rows.length > 0) {
