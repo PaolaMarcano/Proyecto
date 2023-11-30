@@ -6,20 +6,12 @@ const { checkLoginView, checkRootView, resDateTime } = require('../auth/authView
 const responderErr = require('./respuestas');
 
 
-/* GET home page. */
-router.get('/home', function (req, res, next) {
-  res.render('index', { title: 'Campeonato UVM' });
-});
 
-router.get('/', function (req, res, next) {
-  res.redirect('./home');
-});
-/*
-router.get('/home/register', function (req, res, next) {
+router.get('/register', function (req, res, next) {
   res.render('./userViews/register', { mainTitle: "Registrar Usuario" });
 });
 
-router.post('/home/register', function (req, res, next) {
+router.post('/register', function (req, res, next) {
   let data = req.body;
   if (data != null) {
     UsuarioController.registrar_usuario(req.body).then((token) => {
@@ -33,12 +25,12 @@ router.post('/home/register', function (req, res, next) {
 });
 
 
-router.get('/home/login', function (req, res, next) {
+router.get('/login', function (req, res, next) {
   if (req.cookies.jwt && typeof decodificar(req.cookies.jwt) == "object") { res.redirect('./menu'); return };
   res.render('./userViews/login', { mainTitle: "Iniciar Sesión" });
 });
 
-router.post('/home/login', function (req, res, next) {
+router.post('/login', function (req, res, next) {
   UsuarioController.login(req.body).then((token) => {
     res.cookie("jwt", token.token, { maxAge: 3600000 });
     res.redirect('./menu');
@@ -47,7 +39,7 @@ router.post('/home/login', function (req, res, next) {
   })
 });
 
-router.get('/home/menu', checkLoginView, function (req, res, next) {
+router.get('/menu', checkLoginView, function (req, res, next) {
   let decoded = decodificar(req.cookies.jwt);
   let timeExp = resDateTime(decoded);
   if (!decoded || !decoded.nombre) { res.status(400).send("Error al leer token"); return }
@@ -56,7 +48,7 @@ router.get('/home/menu', checkLoginView, function (req, res, next) {
 });
 
 //Editar usuario Views
-router.get('/home/edit', checkLoginView, function (req, res, next) {
+router.get('/edit', checkLoginView, function (req, res, next) {
   let decoded = decodificar(req.cookies.jwt);
   UsuarioController.encontrar_usuario_views(decoded.id).then((usuario) => {
     res.render('./userViews/edit', { mainTitle: "Actualizar Usuario", user: usuario });
@@ -67,7 +59,7 @@ router.get('/home/edit', checkLoginView, function (req, res, next) {
 
 });
 //Hay que restringir de nuevo, Y HACER OTRA VEZ LOGIN AL ACTUALIZAR. FALTA CAMBIAR CONTRASEÑA
-router.put('/home/edit/:index', function (req, res, next) {
+router.put('/edit/:index', function (req, res, next) {
   let data = req.body;
   if (data != null) {
     UsuarioController.editar_usuario(req.params.index, data)
@@ -87,7 +79,7 @@ router.put('/home/edit/:index', function (req, res, next) {
 
 
 
-/*Para el usuario ROOT
+/*Para el usuario ROOT*/
 
 router.get('/user_manager', checkRootView, function (req, res, next) {
   UsuarioController.ver_usuarios().then((resultados) => {
@@ -98,7 +90,7 @@ router.get('/user_manager', checkRootView, function (req, res, next) {
   }) 
 });
 
-/* PATCH user.(editar rol) 
+/* PATCH user.(editar rol) */
 
 router.get('/user_manager/rol/:index', checkRootView , function (req, res, next) {
   UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
@@ -119,7 +111,7 @@ router.patch('/user_manager/rol/:index', checkRootView, function (req, res, next
   }) 
 }); 
 
-/* DELETE user.(eliminar usuario) 
+/* DELETE user.(eliminar usuario) */
 
 router.get('/user_manager/eliminar/:index', checkRootView, function (req, res, next) {
   UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
@@ -137,5 +129,5 @@ router.delete('/user_manager/eliminar/:index', checkRootView, function (req, res
     responderErr(error, res);
   }) 
 });
-*/
+
 module.exports = router;
