@@ -44,7 +44,7 @@ router.get('/menu', checkLoginView, function (req, res, next) {
   let timeExp = resDateTime(decoded);
   if (!decoded || !decoded.nombre) { res.status(400).send("Error al leer token"); return }
   console.log("decodificar", decoded.nombre)
-  res.render('../views/userViews/UserHome', { mainTitle: 'Campeonato UVM', user: decoded.nombre, hora: timeExp });
+  res.render('./userViews/UserHome', { mainTitle: 'Campeonato UVM', user: decoded.nombre, hora: timeExp });
 });
 
 //Editar usuario Views
@@ -58,15 +58,15 @@ router.get('/edit', checkLoginView, function (req, res, next) {
   })
 
 });
-//Hay que restringir de nuevo, Y HACER OTRA VEZ LOGIN AL ACTUALIZAR. FALTA CAMBIAR CONTRASEÑA
-router.put('/edit/:index', function (req, res, next) {
+//FALTA CAMBIAR CONTRASEÑA
+router.put('/edit/:index', checkLoginView, function (req, res, next) {
   let data = req.body;
   if (data != null) {
     UsuarioController.editar_usuario(req.params.index, data)
-      //FALTA HACER EXPIRAR EL VIEJO TOKEN
+      
       .then((Resultado) => {
         //console.log(Resultado);
-        res.redirect('../../menu');
+        res.redirect('../../cerrar');
       })
       .catch((error) => {
         //console.log(error);
@@ -84,7 +84,7 @@ router.put('/edit/:index', function (req, res, next) {
 router.get('/user_manager', checkRootView, function (req, res, next) {
   UsuarioController.ver_usuarios().then((resultados) => {
     let usuarios = resultados
-    res.render('../views/userViews/operacionesRoot', { mainTitle: "Cambiar Rol", title: "Operación root", usuarios: usuarios});
+    res.render('./userViews/operacionesRoot', { mainTitle: "Cambiar Rol", title: "Operación root", usuarios: usuarios});
   }).catch((error)=>{
     responderErr(error, res);
   }) 
@@ -95,7 +95,7 @@ router.get('/user_manager', checkRootView, function (req, res, next) {
 router.get('/user_manager/rol/:index', checkRootView , function (req, res, next) {
   UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
     let usuario_encontrado = resultados
-    res.render('../views/userViews/cambiarRolForm', { mainTitle: "Cambiar Rol", title: "Operación root", usuario: usuario_encontrado});
+    res.render('./userViews/cambiarRolForm', { mainTitle: "Cambiar Rol", title: "Operación root", usuario: usuario_encontrado});
   }).catch((error)=>{
     responderErr(error, res);
   }) 
@@ -116,7 +116,7 @@ router.patch('/user_manager/rol/:index', checkRootView, function (req, res, next
 router.get('/user_manager/eliminar/:index', checkRootView, function (req, res, next) {
   UsuarioController.encontrar_usuario_views(req.params.index).then((resultados)=>{
     let usuario_encontrado = resultados
-    res.render('../views/userViews/eliminarUsuario', { mainTitle: "Eliminar", title: "¿Quiere eliminar este usuario?", usuario: usuario_encontrado});
+    res.render('./userViews/eliminarUsuario', { mainTitle: "Eliminar", title: "¿Quiere eliminar este usuario?", usuario: usuario_encontrado});
   }).catch((error)=>{
     responderErr(error, res);
   }) 
@@ -128,6 +128,10 @@ router.delete('/user_manager/eliminar/:index', checkRootView, function (req, res
   }).catch((error)=>{
     responderErr(error, res);
   }) 
+});
+
+router.get('/cerrar', checkLoginView, function (req, res, next) {
+  res.render('./userViews/cerrar')
 });
 
 module.exports = router;
