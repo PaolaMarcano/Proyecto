@@ -10,6 +10,12 @@ class OrganizadorController {
                 .catch((error) => { reject(error); })
         })
     }
+    buscar_organizador(id) {
+        return new Promise((resolve, reject) => {
+            if (!id || isNaN(Number(id))) { reject(new Respuesta(400, "No se ingresó un ID válido", id)) }
+            else { Organizador_Model.buscar_organizador(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) }); }
+        })
+    }
     ingresar_organizador(persona) {
         return new Promise((resolve, reject) => {
             if (persona.eventos == undefined) return reject(new Respuesta(400, "No se ingresaron eventos", persona));
@@ -28,6 +34,13 @@ class OrganizadorController {
                     }
                 })
                 .catch((error) => { reject(error) })
+        })
+    }
+    eliminar_organizador(id) {
+        console.log('id', id)
+        return new Promise((resolve, reject) => {
+            if (!id || isNaN(Number(id))) { reject(new Respuesta(400, "No se ingresó un ID válido", id)) }
+            else { Organizador_Model.eliminar_organizador(id).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) }); }
         })
     }
 }

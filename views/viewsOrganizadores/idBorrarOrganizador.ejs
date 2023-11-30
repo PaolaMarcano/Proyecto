@@ -1,0 +1,24 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+</head>
+<%-include("../partials/nav")%>
+
+
+<body>
+  <div class="form_container">
+    <form action method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+          <h1 class="register"><%= title %></h1>
+          <label id="titulo">ID de Organizador</label><br>
+          <input class="input_form" type="number"  name="id_organizador" required><br>
+          <input type="submit" class="button" value="Buscar">          
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -37,6 +37,21 @@ class OrganizadorModel {
             });
         })
     }
+    buscar_organizador(id) {
+        return new Promise((resolve, reject) => {
+            connection.query('SELECT * FROM `organizadores` WHERE `id_organizador` = ?', id, function (err, rows, fields) {
+                if (err) {
+                    reject(new Respuesta(500, err, err))
+                } else {
+                    if (rows.length == 0) {
+                        reject(new Respuesta(404, 'No existen organizadores con el ID: ' + id, rows))
+                    } else {
+                        resolve(new Respuesta(200, rows, rows))
+                    }
+                }
+            })
+        })
+    }
     ingresar_organizador(persona) {
         return new Promise((resolve, reject) => {
             console.log("en models", persona);
@@ -72,6 +87,21 @@ class OrganizadorModel {
                 })
             }
             resolve()
+        })
+    }
+    eliminar_organizador(id) {
+        return new Promise((resolve, reject) => {
+            connection.query('DELETE FROM `organizadores` WHERE `id_organizador` = ?', id, function (err, rows, fields) {
+                if (err) {
+                    reject(new Respuesta(500, err, err))
+                } else {
+                    if (rows.affectedRows > 0) {
+                        resolve(new Respuesta(200, "Se ha eliminado exitosamente", rows));
+                    } else {
+                        reject(new Respuesta(404, 'No se eliminó el organizador "' + id + '". Es posible de que ya no exista.', rows));
+                    }
+                }
+            })
         })
     }
 }

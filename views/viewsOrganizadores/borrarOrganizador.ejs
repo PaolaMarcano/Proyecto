@@ -1,0 +1,31 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/mostrar.css"></link>
+</head>
+<%-include("../partials/nav")%>
+
+
+<body>
+  <main>
+    <div class="mostrar_container">
+      <h1> <%= title %> </h1>
+      <hr>
+      <div class="boxes">
+        <h2> <%= organizador.nombre %> </h2>
+        <ul>
+          <% for (columna in organizador) { %>
+            <% if (columna != 'id_organizador' && columna != 'nombre') { %>
+              <li> <%= columna %>: <%= organizador[columna] %> </li> <br>
+              <% } %>
+            <% } %>
+        </ul>
+        <form action="<%= organizador.id_organizador %>/?_method=DELETE" method="post">
+          <input type="submit" class="button" value="Confirmar">
+        </form>
+      </div>
+    </div>
+  </main>
+  <%-include("../partials/footer")%>
+
+</body>
+</html>
