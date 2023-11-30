@@ -1,0 +1,31 @@
+<%-include("../templates/header",{mainTitle:"UVM|Robotica|Equipos"})%>
+<head> 
+  <link rel='stylesheet' href='/stylesheets/mostrar.css' />
+
+</head>
+  
+  <body>
+    <%-include("../partials/disclaimer")%>
+    <%-include("../partials/nav")%>
+
+ <main>
+  <div class="mostrar_container">
+    <h1> <%= title %> </h1>
+    <hr>
+    <div class="boxes">
+      <h2> <%= categoria[0].nombre_categoria %> </h2>
+      <ul>
+          <li> Descripción: <%= categoria[0].descripcion %> </li> <br>
+          <li> Reglas: <%= categoria[0].reglas %> </li> <br>
+          <li> Premio: <%= categoria[0].premio %> </li> <br>
+        </ul>
+        <form action="./<%= categoria[0].id_categoria %>/?_method=DELETE" method="post">
+          <input type="submit" class="button" value="Confirmar">
+        </form>
+    </div>
+  </div>
+ </main>
+      <%-include("../partials/footer")%>
+
+  </body>
+</html>

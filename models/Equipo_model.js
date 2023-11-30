@@ -211,6 +211,21 @@ class EquipoModel {
             })
         })
     }
+    ver_cat_equipos_con_id(idTeam) {
+        return new Promise((resolve, reject) => {
+            let query = connection.query('SELECT `id_equipo`, `id_categoria`, `nombre_de_equipo`, `nombre_categoria`, `nombre_modalidad` FROM `inscripciones` INNER JOIN `categorias` ON `id_categoria` = `idCategoria` INNER JOIN `modalidades` ON `id_modalidad` = `idModalidad` INNER JOIN `equipos` ON `id_equipo` = `idEquipo` WHERE `id_equipo` = ?;', [idTeam], function (err, rows, fields) {
+                if (err) {
+                    reject(err);
+                } else {
+                    if (rows.length == 0) {
+                        reject(null);
+                    } else {
+                        resolve(rows);
+                    }
+                }
+            })
+        })
+    }
 }
 
 module.exports = new EquipoModel(); 
