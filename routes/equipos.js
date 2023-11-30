@@ -5,7 +5,7 @@ const Modalidad_Controller = require('../controllers/Modalidad_Controller');
 const Categoria_Controller = require('../controllers/Categoria_Controller')
 const { checkLogin, checkAdmin, decodificar } = require('../auth/auth');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
-
+const responderErr = require('./respuestas');
 
 /* GET */
 

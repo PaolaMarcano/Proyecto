@@ -218,7 +218,7 @@ class EquipoModel {
                     reject(err);
                 } else {
                     if (rows.length == 0) {
-                        reject(null);
+                        reject("No hay resultados");
                     } else {
                         resolve(rows);
                     }
