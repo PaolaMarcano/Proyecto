@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-11-2023 a las 14:36:00
+-- Tiempo de generación: 30-11-2023 a las 04:53:40
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `campeonato`
+-- Base de datos: `campeonato2`
 --
 
 -- --------------------------------------------------------
@@ -145,17 +145,19 @@ CREATE TABLE `jueces` (
   `id_juez` int(13) NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `telefono` varchar(15) NOT NULL
+  `telefono` varchar(15) NOT NULL,
+  `cedula` int(8) NOT NULL,
+  `comentario` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `jueces`
 --
 
-INSERT INTO `jueces` (`id_juez`, `nombre`, `email`, `telefono`) VALUES
-(1, 'Gaspar', 'gaspar@gmail.com', '0412-7777712'),
-(2, 'María', 'maria@gmail.com', '0312-3733712'),
-(3, 'Gerardo', 'gerardo@gmail.com', '0412-1007112');
+INSERT INTO `jueces` (`id_juez`, `nombre`, `email`, `telefono`, `cedula`, `comentario`) VALUES
+(1, 'Gaspar', 'gaspar@gmail.com', '0412-7777712', 15431368, ''),
+(2, 'María', 'maria@gmail.com', '0312-3733712', 15431362, ''),
+(3, 'Gerardo', 'gerardo@gmail.com', '0412-1007112', 15431363, '');
 
 -- --------------------------------------------------------
 
@@ -208,19 +210,21 @@ INSERT INTO `modalidades` (`id_modalidad`, `nombre_modalidad`) VALUES
 CREATE TABLE `organizadores` (
   `id_organizador` int(13) NOT NULL,
   `nombre` varchar(30) NOT NULL,
+  `cedula` int(8) NOT NULL,
   `email` varchar(30) NOT NULL,
   `telefono` varchar(15) NOT NULL,
-  `cargo` varchar(30) NOT NULL
+  `cargo` varchar(30) NOT NULL,
+  `comentario` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `organizadores`
 --
 
-INSERT INTO `organizadores` (`id_organizador`, `nombre`, `email`, `telefono`, `cargo`) VALUES
-(1, 'Vincent', 'vincet@gmail.com', '0412-9876541', 'promotor'),
-(2, 'Antonia', 'antonia@gmail.com', '0413-9999547', 'decorador'),
-(3, 'Tereza', 'tereza@gmail.com', '0412-1212541', 'conferencista');
+INSERT INTO `organizadores` (`id_organizador`, `nombre`, `cedula`, `email`, `telefono`, `cargo`, `comentario`) VALUES
+(1, 'Vincent', 10785645, 'vincet@gmail.com', '0412-9876541', 'promotor', ''),
+(2, 'Antonia', 25456157, 'antonia@gmail.com', '0413-9999547', 'decorador', ''),
+(3, 'Tereza', 5654121, 'tereza@gmail.com', '0412-1212541', 'conferencista', '');
 
 -- --------------------------------------------------------
 
@@ -346,7 +350,8 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `cedula_usuario`, `nombre_usuario`, `clave_usuario`, `rol_usuario`, `correo_usuario`) VALUES
 (1, 30975611, 'Admin', '$2b$10$2W5mM5eVKMWjbUlmGBOpzOSMH1DsOrp6dzFKUhJ8ZyAX8f2LgC5Fq', 'admin', ''),
 (2, 31975611, 'Editor', '$2b$10$6GbZre.MDZf1ColrctMUK.ARvZdxIEQwQdGY8kmtfGm8RAf6YfdUu', 'editor', ''),
-(4, 0, 'Root', '$2b$10$xnqX1SCHU7Yky4g5D/O4KOpbTZQaZGwH85FBI2xp0uyZ0v/8diSOm', 'root', '');
+(4, 0, 'Root', '$2b$10$xnqX1SCHU7Yky4g5D/O4KOpbTZQaZGwH85FBI2xp0uyZ0v/8diSOm', 'root', ''),
+(8, 15975300, 'Momo', '$2b$10$uhMM3LCrARxcgRTdbu5iJ.vFGXKDd1NSIa5fQ1ilgwkTQTuKmDkRK', 'editor', 'momo_1@correo.com');
 
 --
 -- Índices para tablas volcadas
@@ -387,7 +392,8 @@ ALTER TABLE `inscripciones`
 -- Indices de la tabla `jueces`
 --
 ALTER TABLE `jueces`
-  ADD PRIMARY KEY (`id_juez`);
+  ADD PRIMARY KEY (`id_juez`),
+  ADD UNIQUE KEY `cedula` (`cedula`);
 
 --
 -- Indices de la tabla `jurado`
@@ -408,7 +414,8 @@ ALTER TABLE `modalidades`
 -- Indices de la tabla `organizadores`
 --
 ALTER TABLE `organizadores`
-  ADD PRIMARY KEY (`id_organizador`);
+  ADD PRIMARY KEY (`id_organizador`),
+  ADD UNIQUE KEY `cedula` (`cedula`);
 
 --
 -- Indices de la tabla `padrinos`
@@ -480,13 +487,13 @@ ALTER TABLE `inscripciones`
 -- AUTO_INCREMENT de la tabla `jueces`
 --
 ALTER TABLE `jueces`
-  MODIFY `id_juez` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_juez` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `jurado`
 --
 ALTER TABLE `jurado`
-  MODIFY `id_jurado` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_jurado` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `modalidades`
@@ -498,7 +505,7 @@ ALTER TABLE `modalidades`
 -- AUTO_INCREMENT de la tabla `organizadores`
 --
 ALTER TABLE `organizadores`
-  MODIFY `id_organizador` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_organizador` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `padrinos`
@@ -528,7 +535,7 @@ ALTER TABLE `personal`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas

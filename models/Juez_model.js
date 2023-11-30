@@ -2,10 +2,12 @@ const connection = require('../config/conexion');
 const { Respuesta, validarClass } = require('./metodos');
 
 class Juez {
-    constructor(nombre, email, telefono) {
+    constructor(nombre, email, telefono, cedula, comentario) {
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;
+        this.cedula = cedula;
+        this.comentario = comentario
     }
 }
 
@@ -49,8 +51,8 @@ class JuezModel{
     }
     ingresar_juez(juez){
         return new Promise((resolve, reject) => {
-            let Nuevo_juez = new Juez(juez.nombre, juez.email, juez.telefono)
-            if (validarClass(Nuevo_juez, reject, [], 400) !== true) return;
+            let Nuevo_juez = new Juez(juez.nombre, juez.email, juez.telefono, juez.cedula, juez.comentario)
+            if (validarClass(Nuevo_juez, reject, ["comentario"], 400) !== true) return;
             connection.query('INSERT INTO `jueces` SET ?', Nuevo_juez, function (err, rows, fields) {
                 if (err) {
                     if (err.errno == 1062) { reject(new Respuesta(400, err.sqlMessage.substring(16).replace('for key', 'ya existe como'), err)); }

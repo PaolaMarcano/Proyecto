@@ -14,13 +14,16 @@
                 <form action method="post" class="form_r">
                   <div class="register_container">
                     <div class="f_form">
-                      <h1 class="register"><%= title %></h1>
                       <label id="titulo">Nombre</label><br>
                       <input type="text" class="input_form" name="nombre" required> <br>
                       <label id="titulo">Email</label><br>
                       <input type="email" class="input_form" name="email" required> <br>
                       <label id="titulo">Teléfono</label><br>
                       <input type="text" class="input_form" name="telefono" required> <br>
+                      <label id="titulo">Cédula</label><br>
+                      <input class="input_form" type="number"  name="cedula"><br>
+                      <label id="titulo">Comentario (opcional)</label><br>
+                      <input class="input_form" type="text"  name="comentario"><br>
                       <input type="submit" class="button" value="Añadir">
                     </div>
 
@@ -44,7 +47,9 @@
         <h1>Lo sentimos no hay eventos en los que puedas participar</h1>
     <% } %>  
 
-      <%-include("../partials/footer")%>
 
+     
+    
+    <%-include("../partials/footer")%>
   </body>
 </html>
