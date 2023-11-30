@@ -34,7 +34,7 @@ function checkView(token) {
 function checkLoginView(req, res, next) {
     //console.log(req.headers.authorization);
     let reqToken = req.cookies.jwt;
-    if (reqToken == undefined) return res.redirect('../../home/login');
+    if (reqToken == undefined) return res.redirect('../../../home/login');
 
     const { valLogin } = checkView(reqToken);
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
@@ -46,7 +46,7 @@ function checkAdminView(req, res, next) {
     let reqToken = req.cookies.jwt;
     console.log("req Token")
     console.log(reqToken)
-    if (reqToken == undefined) return res.redirect('../../home/login');
+    if (reqToken == undefined) return res.redirect('../../../home/login');
 
     const { valLogin, Utoken } = checkView(reqToken);
     if (valLogin !== true) return res.status(401).send('Token inválido:  \n' + valLogin);
