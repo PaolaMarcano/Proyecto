@@ -1,0 +1,43 @@
+<%- include("../templates/header") %>
+<head>
+  <link rel="stylesheet" href="/stylesheets/patro.css"></link>
+</head>
+<%-include("../partials/nav")%>
+
+
+<body>
+  <div class="form_container">
+    <form action method="post" class="form_r">
+      <div class="register_container">
+        <div class="f_form">
+          <h1 class="register"><%= title %></h1>
+          <label id="titulo">Nombre de Organizador</label><br>
+          <input class="input_form" type="text"  name="nombre" required><br>
+          <label id="titulo">Cédula</label><br>
+          <input class="input_form" type="number" name="cedula" required><br>
+          <label id="titulo">Correo</label><br>
+          <input class="input_form" type="email" name="email" required><br>
+          <label id="titulo">Teléfono</label><br>
+          <input class="input_form" type="text"  name="telefono" required><br>
+          <label id="titulo">Cargo</label><br>
+          <input class="input_form" type="text"  name="cargo" required><br>
+          <label id="titulo">Comentario</label><br>
+          <input class="input_form" type="text" name="comentario"><br>
+          <input type="submit" class="button" value="Registrar">          
+        </div>
+
+        <div class="type">
+          <h2>Seleccione los eventos en los que quiere participar</h2>
+          <div class="paType_check"> 
+              <%  for (let i = 0; i < eventos.length; i++) { %>
+                  <label>Modalidad: <%= eventos[i].nombre_modalidad %> - Categoria: <%= eventos[i].nombre_categoria %> </label>
+                  <input type="checkbox" value="<%= eventos[i].id_evento %>" name="eventos" ><br>
+              <% } %>
+          </div> 
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+</body>
