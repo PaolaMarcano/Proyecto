@@ -30,6 +30,7 @@ function cambiarAviso(fecha, idHTML) {
     let aviso = (restante / 1000 / 60).toFixed(0);
     document.getElementById(idHTML).innerHTML = `Su sesión expira a las: ${new Date(fecha).toLocaleTimeString('es-US')} \n<hr> Le quedan ${aviso} minutos.`;
     setInterval(() => {
+        aviso = ((fecha - Date.now()) / 1000 / 60).toFixed(0);
         document.getElementById(idHTML).innerHTML = `Su sesión expira a las: ${new Date(fecha).toLocaleTimeString('es-US')} \n<hr> Le quedan ${aviso} minutos.`;
     }, 1000 * 60)
 }
