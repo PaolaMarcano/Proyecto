@@ -20,6 +20,10 @@ router.get('/', checkAdmin, function (req, res, next) {
 
 /* POST */
 router.post('/', checkLogin, function (req, res, next) {
+    let decoded = decodificar(req.headers.authorization);
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    let equipo = req.body;
+    equipo.id_user = decoded.id;
     Equipos_Controller.ingresar_equipo(req.body).then((inscripcion) => {
         Equipos_Controller.ingresar_inscripcion(inscripcion).then(() => {
             Equipos_Controller.ver_equipos().then((resultados) => {
@@ -66,6 +70,11 @@ router.delete('/sin_categoria/:index/:index2', checkLogin, function (req, res, n
 
 /*Editar equipo*/
 router.put('/editar_equipo/:editar', checkLogin, function (req, res, next) {
+    let decoded = decodificar(req.headers.authorization);
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    let equipo = req.body;
+    equipo.verificado = "verificado";
+    equipo.id_user = decoded.id;
     Equipos_Controller.editar_equipo(req.params.editar, req.body)
         .then((resultados) => {
             res.status(resultados.codigo).send(resultados.mensaje);
