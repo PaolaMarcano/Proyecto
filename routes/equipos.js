@@ -20,6 +20,10 @@ router.get('/', checkAdmin, function (req, res, next) {
 
 /* POST */
 router.post('/', checkLogin, function (req, res, next) {
+    let decoded = decodificar(req.headers.authorization);
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    let equipo = req.body;
+    equipo.id_user = decoded.id;
     Equipos_Controller.ingresar_equipo(req.body).then((inscripcion) => {
         Equipos_Controller.ingresar_inscripcion(inscripcion).then(() => {
             Equipos_Controller.ver_equipos().then((resultados) => {
@@ -66,6 +70,11 @@ router.delete('/sin_categoria/:index/:index2', checkLogin, function (req, res, n
 
 /*Editar equipo*/
 router.put('/editar_equipo/:editar', checkLogin, function (req, res, next) {
+    let decoded = decodificar(req.headers.authorization);
+    if (!decoded || isNaN(decoded.id)) { res.status(400).send("Error al leer token"); return }
+    let equipo = req.body;
+    equipo.verificado = "verificado";
+    equipo.id_user = decoded.id;
     Equipos_Controller.editar_equipo(req.params.editar, req.body)
         .then((resultados) => {
             res.status(resultados.codigo).send(resultados.mensaje);
@@ -207,50 +216,53 @@ router.delete('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
 });
 
 /* VIEWS GET PADRINOS */
-router.get('/verPadrinos', function (req, res, next) {
+router.get('/verPadrinos',checkAdminView,function (req, res, next) {
     Equipos_Controller.ver_padrinos().then((resultados) => {
         let equipos = resultados;
         res.render('./viewsEquipos/verEquiposyPadrinos',{title:'Equipos y sus padrinos',equipos:equipos});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res);
     })
 });
 /* VIEWS GET CATEGORIAS INSCRITA EN EQUIPO */
-router.get('/categoriaInscrita/:index', function (req, res, next) {
+router.get('/categoriaInscrita/:index',checkLoginView, function (req, res, next) {
     Equipos_Controller.ver_cat_equipos(req.params.index).then((resultados) => {
     let equipos = resultados;
     res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipo y sus categorías',equipos:equipos, id_cat: null});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res);
     })
 });
 
 /*Eliminar categorías de un equipo*/
 
-router.get('/eliminarCategoriaInscrita/:index', function (req, res, next) {
+router.get('/eliminarCategoriaInscrita/:index',checkLoginView,function (req, res, next) {
     Equipos_Controller.ver_cat_equipos_con_id(req.params.index).then((resultados) => {
     let equipos = resultados;
     res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipo y sus categorías',equipos:equipos, id_cat: "presente"});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res)
     })
 });
 
-router.get('/eliminarCategoriaInscrita/:index/:index2', function (req, res, next) {
+router.get('/eliminarCategoriaInscrita/:index/:index2',checkLoginView, function (req, res, next) {
     Categoria_Controller.buscar_categoria_id(req.params.index2).then((resultados) => {
         let categoria = resultados;
         res.render('./viewsEquipos/eliminarInscripcion.ejs',{title:'¿Quiere dejar de participar en esta categoria?',id_equipo:req.params.index, categoria: categoria});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res)
     })
 }); 
 
 
-router.delete('/eliminarCategoriaInscrita/:index/:index2', function (req, res, next) {
-    console.log("Equipo de la que se va a eliminar (id)")
-    console.log(req.params.index)
-    console.log("Categoria de la que se va a eliminar (id)")
-    console.log(req.params.index2)
+router.delete('/eliminarCategoriaInscrita/:index/:index2',checkLoginView, function (req, res, next) {
+    Equipos_Controller.eliminar_categoria_inscrita(req.params.index, req.params.index2).then((resultados) => {
+        res.send("Inscripcion eliminada correctamente")
+    
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+    
 }); 
 
 module.exports = router; 
