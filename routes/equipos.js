@@ -96,8 +96,7 @@ router.get('/verEquipo', checkAdminView, function (req, res, next) {
             res.render('./viewsEquipos/verEquipos', { title: 'Equipos Participantes', tabla: resultados, subtitulos: "nombre_de_equipo" });
         };
     }).catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error,res);
     })
 });
 
@@ -113,9 +112,7 @@ router.get('/verEquipoUser', checkLoginView, function (req, res, next) {
             res.render('./viewsEquipos/verEquipos', { title: 'Equipos Participantes', tabla: resultados, subtitulos: "nombre_de_equipo" });
         };
     }).catch((error) => {
-        if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-        else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-        else { res.status(500).send(error) }
+        responderErr(error,res);
     })
 });
 
@@ -127,8 +124,7 @@ router.get('/nuevoEquipo', checkLoginView, function (req, res, next) {
         let inscripciones = resultados
         res.render('./viewsEquipos/nuevoEquipo', { title: 'Crear un Equipo', categorias: inscripciones });
     }).catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error,res);
     })
 })
 
@@ -145,10 +141,10 @@ router.post('/nuevoEquipo', checkLoginView, function (req, res, next) {
             Equipos_Controller.ingresar_inscripcion(inscripcion).then(() => {
                res.redirect('./verEquipoUser')
             }).catch((error) => {
-                res.status(error.codigo).send(error.mensaje);
+                responderErr(error,res);
             })
         }).catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
+            responderErr(error,res);
         })
     } else {
         res.status(400).send("Inscribete en alguna categoría")
@@ -164,8 +160,7 @@ router.get('/editarEquipo/:index', checkLoginView,function(req,res, next){
         res.render('./viewsEquipos/editarEquipo',{title: 'Equipo',equipo: equipo_a_editar});
     })
     .catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error,res);
     })
 });
 
@@ -183,12 +178,11 @@ router.put('/editarEquipo/:index',checkLoginView,function(req,res, next){
                 res.render('./viewsEquipos/verEquipos', { title: 'Equipos Participantes', tabla: resultados, subtitulos: "nombre_de_equipo" });
             };
         }).catch((error) => {
-            if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-            else { res.status(500).send(error) }
+            responderErr(error,res);
         })
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res);
     })
 });
 
@@ -202,8 +196,7 @@ router.get('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
         res.render('./viewsEquipos/eliminarEquipo',{title: '¿Quiere Eliminar este equipo?',equipo: equipo_a_eliminar});
     })
     .catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error,res);
     })
 });
 
@@ -211,7 +204,7 @@ router.delete('/eliminarEquipo/:index', checkAdminView,function(req,res, next){
     Equipos_Controller.eliminar_equipo(req.params.index).then((resultados) => {
         res.send("Eliminado correctamente")
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res);
     })
 });
 
@@ -260,7 +253,7 @@ router.delete('/eliminarCategoriaInscrita/:index/:index2',checkLoginView, functi
         res.send("Inscripcion eliminada correctamente")
     
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error,res);
     })
     
 }); 
