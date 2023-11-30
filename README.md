@@ -5,11 +5,11 @@ Proyecto de Backend
 
 Una vez descargado el repositorio sigue los siguientes pasos para que puedas visualizar su funcionamiento:  
 
-1.	Descomprime la carpeta que contiene el proyecto.  
+1.	Descomprime la carpeta que contiene el proyecto, o clona el repositorio usando el comando git clone.  
 
 2.	Abre en el editor de código de tu preferencia, la carpeta e inicia tu terminal con:  <br>
 •	npm install (este comando instala los paquetes y dependencias necesarias utilizadas en el proyecto).  <br>
- Dentro de ellas están: express, express-generator, mysql, bcrypt, JWT, cookie-parser, dotenv y nodemon (para el desarrollo).  
+ Dentro de ellas están: express, express-generator, mysql, bcrypt, JWT, cookie-parser, dotenv , method-Override y nodemon (para el desarrollo).  
 
 3.	Crea en tu editor de código un archivo << .env >> .  
 •	Como ayuda te explicamos un ejemplo sobre los datos que contendrá tu archivo   << .env >>:
@@ -39,9 +39,9 @@ JWT_SECRET=secretJWT_token  <br>
 
 Si quieres hacer operaciones como usuario editor o administrador desde ThunderClient, realiza los siguientes pasos: <br>
 
-1. Dirigete a ThunderClient, elige el metodo POST y copia la siguiente URL :  localhost:3000/usuario/login <br>
+1. Dirigete a ThunderClient, elige el método POST y copia la siguiente URL :  localhost:3000/usuario/login <br>
 
-2. En la seccion Body copia el siguiente JSON: <br>
+2. En la sección Body copia el siguiente JSON: <br>
 
 Si es para un Usuario Editor: <br>
 
@@ -62,9 +62,21 @@ Si es para un Usuario Administrador:<br>
   "rol_usuario": "admin"  <br>
 }
 
-3. Una vez generado tu token, dirigete en Auth, y en Bearer almacena tu token. El se encargara de que sea posible realizar las operaciones que gustes. <br>
+Si es para un Usuario Root:<br>
 
-4. Cada que desees realizar una operacion recuerda mantener el token en Bearer (Preferiblemente al hacer este paso que sea en un New Request).<br>
+{ <br>
+  "cedula_usuario": 0,  <br>
+  "nombre_usuario": "Root",  <br>
+  "clave_usuario": "r4iz_805",  <br>
+  "rol_usuario": "root"  <br>
+}
+
+Nota: otro modo de hacer login es en la view que tiene la siguiente url: http://localhost:3000/home/login 
+
+
+3. Una vez generado tu token, dirigete en Auth, y en Bearer almacena tu token. El se encargara de que sea posible realizar las operaciones que gustes dependiendo de los permisos que tengas como usuario. <br>
+
+4. Cada que desees realizar una operación recuerda mantener el token en Bearer (Preferiblemente al hacer este paso que sea en un New Request).<br>
 
 
 Operaciones a las cuales tiene acceso el Usuario Editor: <br>
@@ -160,7 +172,7 @@ http://localhost:3000/patrocinador/ver                  (ver Patrocinador)
 http://localhost:3000/patrocinador/todos                (ver Patrocinador con usuario Administrador)
 
 
-Ejemplo de como ingresar un equipo desde Thunder Client: (Realizar operacion con usuario Editor)
+Ejemplo de como ingresar un equipo desde Thunder Client: (Realizar operación con usuario Editor)
 
 •	POST => http://localhost:3000/equipo
 
