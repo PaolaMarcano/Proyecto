@@ -14,15 +14,19 @@
         <hr>
         <div class="boxes">
           <% if(equipos.length) { %>
+            <h2> <%= equipos[0].nombre_de_equipo %> </h2>
+            <p> <strong>ID del Equipo Participante:</strong> <%= equipos[0].id_equipo %> </p> <br>
+            <h3> Inscripciones: </h3>
+            <ul>
             <%  for (let i = 0; i < equipos.length; i++) { %>
-              <h2> <%= equipos[i].nombre_de_equipo %> </h2>
-                <ul>
-                    <li> <b>ID del Equipo Participante:</b> <%= equipos[i].id_equipo %> </li> <br>
-                  <li> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br>
-                  <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> </li><br>
-                </ul>
-              
+                <% if(id_cat == null) { %>
+                  <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br>
+                <% } else { %>
+                  <li> <b>Modalidad:</b> <%= equipos[i].nombre_modalidad %> <b>Categoría:</b> <%= equipos[i].nombre_categoria %> </li> <br>
+                  <a class="eliminar" href="./<%= equipos[i].id_equipo %>/<%= equipos[i].id_categoria %> ">Eliminar Categoría</a><br>
+                <% } %>
               <% } %>
+            </ul> 
           <% } %>
         </div>
                                 

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Equipos_Controller = require('../controllers/Equipos_Controller')
 const Modalidad_Controller = require('../controllers/Modalidad_Controller');
+const Categoria_Controller = require('../controllers/Categoria_Controller')
 const { checkLogin, checkAdmin, decodificar } = require('../auth/auth');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
 
@@ -218,10 +219,38 @@ router.get('/verPadrinos', function (req, res, next) {
 router.get('/categoriaInscrita/:index', function (req, res, next) {
     Equipos_Controller.ver_cat_equipos(req.params.index).then((resultados) => {
     let equipos = resultados;
-    res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipos y sus categorías',equipos:equipos});
-}).catch((error) => {
-    res.status(error.codigo).send(error.mensaje);
-})
+    res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipo y sus categorías',equipos:equipos, id_cat: null});
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
 });
+
+/*Eliminar categorías de un equipo*/
+
+router.get('/eliminarCategoriaInscrita/:index', function (req, res, next) {
+    Equipos_Controller.ver_cat_equipos_con_id(req.params.index).then((resultados) => {
+    let equipos = resultados;
+    res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipo y sus categorías',equipos:equipos, id_cat: "presente"});
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+});
+
+router.get('/eliminarCategoriaInscrita/:index/:index2', function (req, res, next) {
+    Categoria_Controller.buscar_categoria_id(req.params.index2).then((resultados) => {
+        let categoria = resultados;
+        res.render('./viewsEquipos/eliminarInscripcion.ejs',{title:'¿Quiere dejar de participar en esta categoria?',id_equipo:req.params.index, categoria: categoria});
+    }).catch((error) => {
+        res.status(error.codigo).send(error.mensaje);
+    })
+}); 
+
+
+router.delete('/eliminarCategoriaInscrita/:index/:index2', function (req, res, next) {
+    console.log("Equipo de la que se va a eliminar (id)")
+    console.log(req.params.index)
+    console.log("Categoria de la que se va a eliminar (id)")
+    console.log(req.params.index2)
+}); 
 
 module.exports = router; 
