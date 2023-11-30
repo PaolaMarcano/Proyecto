@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
     })
 });
 /* POST */
-router.post('/', function (req, res, next) {
+router.post('/',checkAdmin, function (req, res, next) {
     Eventos_Controller.ingresar_evento(req.body).then(()=>{
         Eventos_Controller.ver_eventos().then((resultados)=>{
             res.json(resultados);
