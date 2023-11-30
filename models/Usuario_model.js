@@ -156,6 +156,40 @@ class UsuarioModel {
             }
         })
     }
+    cambiar_clave_views(id, actualizar) {
+        return new Promise((resolve, reject) => {
+            if (validarClass(actualizar, reject, [], 400) !== true) return;
+            connection.query('SELECT * FROM `usuarios` WHERE `id_usuario` = ?', id, function (error, results, fields) {
+                //console.log("Select", error, results);
+                if (error) { reject(new Respuesta(500, error, error)); return };
+                if (results.length < 1) { reject(new Respuesta(404, 'No existen usuarios con el ID: ' + id, results)); return };
+                if (bcrypt.compareSync(actualizar.anterior, results[0].clave_usuario)) {
+                    let nueva = bcrypt.hashSync(actualizar.nueva, saltRounds);
+                    connection.query('UPDATE `usuarios` SET ? WHERE `id_usuario` = ?', [{ clave_usuario: nueva }, id], function (err, rows, fields) {
+                        //console.log("UPDATE", err, rows);
+                        if (err) {
+                            if (err.errno == 1048) reject("No ingresó nungún dato en: " + err.sqlMessage.substring(7).replace(' cannot be null', ''));
+                            reject(new Respuesta(500, err, err));
+                        } else {
+                            if (rows.affectedRows < 1) {
+                                console.error('El usuario "' + id + '" no existe');
+                                reject(new Respuesta(404, 'No existe ningún usuario con el ID indicado: ' + id, rows))
+                            } else if (rows.changedRows > 0) {
+                                resolve(new Respuesta(200, "Se ha actualizado exitosamente", rows));
+                            } else {
+                                reject(new Respuesta(200, 'No se modificó la contraseña del usuario "' + id + '"', rows));
+                            }
+                        }
+                    })
+                } else {
+                    console.log('Clave errada');
+                    reject(new Respuesta(401, "Su contraseña anterior no es correcta. Verifique.", actualizar));
+                }
+            })
+
+
+        })
+    }
     eliminar_usuario(id) {
         return new Promise((resolve, reject) => {
             connection.query('DELETE FROM `usuarios` WHERE `id_usuario` = ?', id, function (err, rows, fields) {

@@ -1,4 +1,5 @@
 const Usuario_model = require('../models/Usuario_model');
+const { Respuesta } = require('../models/metodos');
 
 class UsuarioController {
   ver_usuarios() {
@@ -46,6 +47,19 @@ class UsuarioController {
     return new Promise((resolve, reject) => {
       if (id != undefined && !isNaN(Number(id))) {
         Usuario_model.modificar_usuario_views(id, actualizar).then((resultado) => { resolve(resultado) }).catch((error) => { reject(error) })
+      } else {
+        return reject(new Respuesta(400, 'No se ingresó un ID válido: ' + id, id));
+      }
+    })
+  }
+  cambiar_clave(id, actualizar) {
+    return new Promise((resolve, reject) => {
+      if (id != undefined && !isNaN(Number(id))) {
+        if (actualizar.nueva != actualizar.confirmar) return reject(new Respuesta(400, 'No repitió correctamente su nueva contraseña. Intente de nuevo.', actualizar));
+        if (actualizar.nueva == actualizar.anterior) return reject(new Respuesta(400, 'Ingresó la misma contraseña que la anterior. Verifique.', actualizar));
+        Usuario_model.cambiar_clave_views(id, actualizar)
+          .then((resultado) => { resolve(resultado) })
+          .catch((error) => { reject(error) })
       } else {
         return reject(new Respuesta(400, 'No se ingresó un ID válido: ' + id, id));
       }
