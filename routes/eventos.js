@@ -4,6 +4,7 @@ const Eventos_Controller = require('../controllers/Eventos_Controller');
 const Categoria_Controller = require('../controllers/Categoria_Controller')
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
+const responderErr = require('./respuestas');
 
 /*GET */
 router.get('/', function (req, res, next) {
@@ -30,7 +31,7 @@ router.get('/nuevoEvento', checkAdminView, function (req, res, next) {
         res.render('./viewsEventos/nuevoEvento',{title: 'Crear un Evento',categorias:nombre_categoria});
     })
     .catch((error)=>{
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -40,7 +41,7 @@ router.post('/nuevoEvento', checkAdminView, function (req, res, next) {
             res.redirect('./verEvento')
         })
         .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
+            responderErr(error, res);
         })
 
 });
@@ -50,7 +51,7 @@ router.get('/verEvento', function (req, res, next) {
         let eventos= resultados; 
         res.render('./viewsEventos/verEvento',{title:'Eventos',eventos:eventos});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     }) 
 });
 

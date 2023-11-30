@@ -3,6 +3,7 @@ var router = express.Router();
 const Juez_Controller = require('../controllers/Juez_Controller');
 const Eventos_Controller = require('../controllers/Eventos_Controller');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews');
+const responderErr = require('./respuestas');
 
 /*GET VIEWS*/
 
@@ -11,7 +12,7 @@ router.get('/verJueces', checkLoginView, function(req, res, next){
         let jueces = resultados;
         res.render('./viewsJueces/verJueces', { title: 'Jueces', juez: jueces});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 })
 
@@ -23,7 +24,7 @@ router.get('/nuevoJuez', checkLoginView,function(req,res, next){
         let eventos = resultados;
         res.render('./viewsJueces/nuevoJuez', { title: 'Ingresar un Juez', eventos: eventos});
     }).catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -37,10 +38,10 @@ router.post('/nuevoJuez', checkLoginView,function(req,res, next){
             Juez_Controller.ingresar_jurado(jurado).then(() => {
                 res.redirect('./verJueces')
              }).catch((error) => {
-                 res.status(error.codigo).send(error.mensaje);
+                responderErr(error, res);
              })
         }).catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
+            responderErr(error, res);
         })
     } else {
         res.status(400).send("Participa en algún evento")
@@ -55,8 +56,7 @@ router.get('/eliminarJuez/:index', checkAdminView,function(req,res, next){
         let juez_a_eliminar = resultado
         res.render('./viewsJueces/eliminarJuez', { title: '¿Quiere eliminar este juez?', juez: juez_a_eliminar });
      }).catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error, res);
      })
 });
 
@@ -64,7 +64,7 @@ router.delete('/eliminarJuez/:index', checkAdminView,function(req,res, next){
     Juez_Controller.eliminar_juez(req.params.index).then((resultado) => {
         res.send("Eliminado con exito");
     }).catch((error) => {
-        res.status(500).send(error)
+        responderErr(error, res);
     })
 });
 

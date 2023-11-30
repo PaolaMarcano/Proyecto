@@ -3,6 +3,7 @@ var router = express.Router();
 const Modalidad_Controller = require('../controllers/Modalidad_Controller');
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkAdminView } = require('../auth/authViews');
+const responderErr = require('./respuestas');
 
 /* GET modalidades */
 router.get('/', function (req, res, next) {
@@ -53,9 +54,7 @@ router.get('/ver', function (req, res, next) {
             subtitulos2: "nombre_categoria"
         });
     }).catch((error) => {
-        if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-        else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-        else { res.status(500).send(error) }
+        responderErr(error, res);
     })
 });
 
@@ -66,8 +65,7 @@ router.get('/nuevaModalidad', checkAdminView, function (req, res, next) {
         let nombre_modalidad = resultados;
         res.render('./viewsModalidades/nuevaModalidad', { title: 'Crear una Modalidad', nombre_modalidad: nombre_modalidad });
     }).catch((error) => {
-        if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-        else { res.status(500).send(error) }
+        responderErr(error, res);
     })
 
 });
@@ -79,7 +77,7 @@ router.post('/nuevaModalidad', checkAdminView, function (req, res, next) {
             res.redirect('./ver')
         })
         .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
+            responderErr(error, res);
         })
 });
 
@@ -92,7 +90,7 @@ router.get('/eliminarModalidad/:index', checkAdminView,function(req,res, next){
         res.render('./viewsModalidades/eliminarModalidad',{title: '¿Quiere Eliminar esta modalidad?',modalidad: modalidad_a_eliminar});
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -100,7 +98,7 @@ router.delete('/eliminarModalidad/:index', checkAdminView,function(req,res, next
     Modalidad_Controller.eliminar_modalidad(req.params.index).then((resultado) => {
         res.send("Eliminada con exito");
     }).catch((error) => {
-        res.status(500).send(error)
+        responderErr(error, res);
     })
 });
 

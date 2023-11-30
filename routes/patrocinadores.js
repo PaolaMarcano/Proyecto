@@ -4,6 +4,7 @@ const Patrocinador_Controller = require('../controllers/Patrocinador_Controller'
 const Equipos_Controller = require('../controllers/Equipos_Controller')
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
+const responderErr = require('./respuestas');
 
 /* GET patrocinantes. */
 
@@ -82,13 +83,11 @@ router.get('/nuevoPatrocinador', checkAdminView, function (req, res, next) {
          let id_equipos = equipos
          res.render('./viewsPatrocinadores/nuevoPatrocinador', { title: 'Crear un Patrocinador', patrocinios: patrocinios, equipos: id_equipos });
       }).catch((error) => {
-         if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-         else { res.status(500).send(error) }
+         responderErr(error, res);
       })
       //console.log(resultados)
    }).catch((error) => {
-      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-      else { res.status(500).send(error) }
+      responderErr(error, res);
    })
 })
 
@@ -99,12 +98,10 @@ router.post('/nuevoPatrocinador', checkAdminView , function (req, res, next) {
             Patrocinador_Controller.ingresar_padrino(resultado).then(() => {
                res.redirect('./todos')
             }).catch((error) => {
-               if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-               else { res.status(500).send(error) }
+               responderErr(error, res);
             })
          }).catch((error) => {
-            if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-            else { res.status(500).send(error) }
+            responderErr(error, res);
          })
       } else {
          res.status(404).send("Para ser un padrino debe de patrocinar algún equipo")
@@ -113,8 +110,7 @@ router.post('/nuevoPatrocinador', checkAdminView , function (req, res, next) {
       Patrocinador_Controller.ingresar_patrocinador(req.body).then(() => {
          res.redirect('./todos')
       }).catch((error) => {
-         if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-         else { res.status(500).send(error) }
+         responderErr(error, res);
       })
    }
 });
@@ -126,8 +122,7 @@ router.get('/ver', function (req, res, next) {
    Patrocinador_Controller.ver_patrocinador_viewsPublic().then((resultados) => {
       res.render('./viewsPatrocinadores/verPatrocinadores', { title: 'Patrocinadores del Evento', tabla: resultados, subtitulos: "Nombre comercial" });
    }).catch((error) => {
-      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-      else { res.status(500).send(error) }
+      responderErr(error, res);
    })
 });
 
@@ -135,8 +130,7 @@ router.get('/todos', checkAdminView, function (req, res, next) {
    Patrocinador_Controller.ver_patrocinador_views().then((resultados) => {
       res.render('./viewsPatrocinadores/verPatrocinadores', { title: 'Patrocinadores del Evento', tabla: resultados, subtitulos: "Nombre comercial" });
    }).catch((error) => {
-      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-      else { res.status(500).send(error) }
+      responderErr(error, res);
    })
 });
 
@@ -150,12 +144,10 @@ router.get('/editarPatrocinador/:index', checkAdminView, function (req, res, nex
          let patrocinador_a_editar = resultado
          res.render('./viewsPatrocinadores/editarPatrocinador', { title: 'Editar un Patrocinador', patrocinios: patrocinios, patrocinador: patrocinador_a_editar });
       }).catch((error) => {
-         if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-         else { res.status(500).send(error) }
+         responderErr(error, res);
       })
    }).catch((error) => {
-      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-      else { res.status(500).send(error) }
+      responderErr(error, res);
    })
 });
 
@@ -169,14 +161,13 @@ router.put('/editarPatrocinador/:index', checkAdminView, function (req, res, nex
          Patrocinador_Controller.ver_patrocinador_views().then((resultados) => {
             res.render('./viewsPatrocinadores/verPatrocinadores', { title: 'Patrocinadores del Evento', tabla: resultados, subtitulos: "Nombre comercial" });
          }).catch((error) => {
-            if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-            else { res.status(500).send(error) }
+            responderErr(error, res);
          })
       }).catch((error) => {
-         res.status(500).send(error)
+         responderErr(error, res);
       })
    }).catch((error) => {
-      res.status(500).send(error)
+      responderErr(error, res);
    })
 });
 
@@ -188,8 +179,7 @@ router.get('/eliminarPatrocinador/:index', checkAdminView, function (req, res, n
       let patrocinador_a_eliminar = resultado
       res.render('./viewsPatrocinadores/eliminarPatrocinador', { title: '¿Quiere eliminar este patrocinador?', patrocinador: patrocinador_a_eliminar });
    }).catch((error) => {
-      if (error.codigo && error.mensaje) { res.status(error.codigo).send(error.mensaje) }
-      else { res.status(500).send(error) }
+      responderErr(error, res);
    })
    
 });
@@ -198,7 +188,7 @@ router.delete('/eliminarPatrocinador/:index', checkAdminView, function (req, res
    Patrocinador_Controller.eliminar_patrocinador(req.params.index).then((resultado) => {
       res.send("Eliminado con exito");
    }).catch((error) => {
-      res.status(500).send(error)
+      responderErr(error, res);
    })
 }); 
 

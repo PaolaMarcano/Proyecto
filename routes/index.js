@@ -3,8 +3,7 @@ var router = express.Router();
 const UsuarioController = require('../controllers/Usuario_Controller');
 const { checkLogin, checkAdmin, decodificar } = require('../auth/auth');
 const { checkLoginView, checkRootView, resDateTime } = require('../auth/authViews');
-const Usuario_Controller = require('../controllers/Usuario_Controller');
-
+const responderErr = require('./respuestas');
 
 
 /* GET home page. */
@@ -28,9 +27,7 @@ router.post('/home/register', function (req, res, next) {
       res.redirect('./menu');
     })
       .catch((error) => {
-        if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-        else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-        else { res.status(500).send(error) }
+        responderErr(error, res);
       })
   }
 });
@@ -46,9 +43,7 @@ router.post('/home/login', function (req, res, next) {
     res.cookie("jwt", token.token, { maxAge: 3600000 });
     res.redirect('./menu');
   }).catch((error) => {
-    if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-    else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-    else { res.status(500).send(error) }
+    responderErr(error, res);
   })
 });
 
@@ -67,9 +62,7 @@ router.get('/home/edit', checkLoginView, function (req, res, next) {
     res.render('./userViews/edit', { mainTitle: "Actualizar Usuario", user: usuario });
   }).catch((error) => {
     console.log(error);
-    if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-    else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-    else { res.status(500).send(error) }
+    responderErr(error, res);
   })
 
 });
@@ -85,9 +78,7 @@ router.put('/home/edit/:index', function (req, res, next) {
       })
       .catch((error) => {
         //console.log(error);
-        if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-        else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-        else { res.status(500).send(error) }
+        responderErr(error, res);
       })
   } else {
     res.render('error', { message: "Body vacío", error: { status: 400 } })
@@ -103,7 +94,7 @@ router.get('/user_manager', checkRootView, function (req, res, next) {
     let usuarios = resultados
     res.render('../views/userViews/operacionesRoot', { mainTitle: "Cambiar Rol", title: "Operación root", usuarios: usuarios});
   }).catch((error)=>{
-    res.status(error.codigo).send(error.mensaje);
+    responderErr(error, res);
   }) 
 });
 
@@ -114,7 +105,7 @@ router.get('/user_manager/rol/:index', checkRootView , function (req, res, next)
     let usuario_encontrado = resultados
     res.render('../views/userViews/cambiarRolForm', { mainTitle: "Cambiar Rol", title: "Operación root", usuario: usuario_encontrado});
   }).catch((error)=>{
-      res.status(error.codigo).send(error.mensaje);
+    responderErr(error, res);
   }) 
 });
 
@@ -124,7 +115,7 @@ router.patch('/user_manager/rol/:index', checkRootView, function (req, res, next
   UsuarioController.cambiar_rol(usuario_con_rol_nuevo).then(()=>{
     res.send("Actualizado correctamente")
   }).catch((error)=>{
-      res.status(error.codigo).send(error.mensaje);
+    responderErr(error, res);
   }) 
 }); 
 
@@ -135,7 +126,7 @@ router.get('/user_manager/eliminar/:index', checkRootView, function (req, res, n
     let usuario_encontrado = resultados
     res.render('../views/userViews/eliminarUsuario', { mainTitle: "Eliminar", title: "¿Quiere eliminar este usuario?", usuario: usuario_encontrado});
   }).catch((error)=>{
-      res.status(error.codigo).send(error.mensaje);
+    responderErr(error, res);
   }) 
 });
 
@@ -143,7 +134,7 @@ router.delete('/user_manager/eliminar/:index', checkRootView, function (req, res
   UsuarioController.borrar_usuario(req.params.index).then(()=>{
     res.send("Eliminado correctamente")
   }).catch((error)=>{
-      res.status(error.codigo).send(error.mensaje);
+    responderErr(error, res);
   }) 
 });
 

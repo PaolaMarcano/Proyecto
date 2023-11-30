@@ -4,6 +4,7 @@ const Categoria_Controller = require('../controllers/Categoria_Controller');
 const Modalidad_Controller = require('../controllers/Modalidad_Controller');
 const { checkLogin, checkAdmin, checkRoot, checkDatetime } = require('../auth/auth');
 const { checkLoginView, checkAdminView, checkRootView } = require('../auth/authViews')
+const responderErr = require('./respuestas');
 
 /* GET  */
 router.get('/', function (req, res, next) {
@@ -95,7 +96,7 @@ router.get('/nuevaCategoria', checkAdminView,function(req,res, next){
         res.render('./viewsCategorias/nuevaCategoria',{title: 'Crear una Categoría', modalidades: modalidades});
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -112,13 +113,11 @@ router.post('/nuevaCategoria', checkAdminView, function (req, res, next) {
                 subtitulos2: "nombre_categoria"
             });
         }).catch((error) => {
-            if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-            else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-            else { res.status(500).send(error) }
+            responderErr(error, res);
         })
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -134,11 +133,11 @@ router.get('/editarCategoria/:index', checkAdminView,function(req,res, next){
             res.render('./viewsCategorias/editarCategoria',{title: 'Editar una Categoría', modalidades: modalidades, categoria: categoria_a_editar});
         })
         .catch((error) => {
-            res.status(error.codigo).send(error.mensaje);
+            responderErr(error, res);
         })
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -154,14 +153,12 @@ router.put('/editarCategoria/:index', checkAdminView,function(req,res, next){
                 subtitulos2: "nombre_categoria"
             });
         }).catch((error) => {
-            if (error.codigo && error.mensaje && error.mensaje.sqlMessage) { res.render('error', { message: error.mensaje.sqlMessage, error: { status: error.codigo } }) }
-            else if (error.codigo && error.mensaje) { res.render('error', { message: error.mensaje, error: { status: error.codigo } }) }
-            else { res.status(500).send(error) }
+            responderErr(error, res);
         })
     })
     .catch((error) => {
         //console.info(error);
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -174,7 +171,7 @@ router.get('/eliminarCategoria/:index', checkAdminView,function(req,res, next){
         res.render('./viewsCategorias/eliminarCategoria',{title: '¿Quiere Eliminar esta categoría?',categoria: categoria_a_eliminar});
     })
     .catch((error) => {
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     })
 });
 
@@ -182,7 +179,7 @@ router.delete('/eliminarCategoria/:index', checkAdminView,function(req,res, next
    Categoria_Controller.eliminar_categoria(req.params.index).then((resultados)=>{
         res.send("Eliminado correctamente")
     }).catch((error)=>{
-        res.status(error.codigo).send(error.mensaje);
+        responderErr(error, res);
     }) 
 });
 
