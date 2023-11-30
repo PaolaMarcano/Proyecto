@@ -225,7 +225,7 @@ router.get('/verPadrinos',checkAdminView,function (req, res, next) {
     })
 });
 /* VIEWS GET CATEGORIAS INSCRITA EN EQUIPO */
-router.get('/categoriaInscrita/:index', function (req, res, next) {
+router.get('/categoriaInscrita/:index',checkLoginView, function (req, res, next) {
     Equipos_Controller.ver_cat_equipos(req.params.index).then((resultados) => {
     let equipos = resultados;
     res.render('./viewsEquipos/verCategoria_deEquipo.ejs',{title:'Equipo y sus categorías',equipos:equipos, id_cat: null});
