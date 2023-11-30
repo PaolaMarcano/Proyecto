@@ -1,0 +1,43 @@
+.tiempo {
+    width: 250px;
+    height: 100px;
+    border: 3px solid black;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.opciones {
+    width: 150px;
+    height: 200px;
+    border: 3px solid rgb(20, 65, 7);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.opciones-ul {
+    font-family: Arial, Helvetica, sans-serif;
+    float: right;
+    position: relative;
+    top: 0px;
+
+}
+
+.opcion-li {
+    width: 145px;
+    position: relative;
+    display: ruby-base;
+    margin: 5px;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.opcion {
+    color: rgb(70, 83, 10);
+    text-decoration: none;
+}

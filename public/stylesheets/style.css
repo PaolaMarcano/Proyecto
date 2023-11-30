@@ -5,15 +5,3 @@ body {
 a {
   color: #00B7FF;
 }
-
-.tiempo {
-  width: 250px;
-  height: 100px;
-  border: 3px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 50px;
-  margin-top: 50px;
-  text-align: -webkit-center;
-}

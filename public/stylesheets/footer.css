@@ -2,8 +2,10 @@ footer {
     background-color: hsl(158, 39%, 39%) ;
     padding: 20px;
     text-align: center;
-    position: relative;
+    position: fixed;
+    left: 0;
     bottom: 0;
+    width: 100%;
     color: #fff;
     }
     

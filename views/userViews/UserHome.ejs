@@ -1,18 +1,32 @@
 <%-include("../templates/header")%>
 <head>
+    <link rel="stylesheet" href="/stylesheets/menu.css"></link>
     <script src="/javascript/dateTime.js"></script>
 </head>
 <%-include("../partials/navUsers")%>
 <body>
-    
-    <div class="tiempo" id="vencer">
-        Tiempo restante
-    </div>
-    
+    <main>
+        <div class="tiempo" id="vencer">
+            Tiempo restante
+        </div>
+
+        <div class="opciones">
+            <ul class="opciones-ul">
+                <li class="opcion-li"><a class="opcion" href="/equipo/verEquipo">Ver Equipos</a></li><br>
+                <li class="opcion-li"><a class="opcion" href="/equipo/nuevoEquipo">Añadir Equipos</a></li><br>
+                <li class="opcion-li"><a class="opcion" href="/patrocinador/nuevoPatrocinador">Patrocinar</a></li><br>
+                <li class="opcion-li"><a class="opcion" href="/patrocinador/ver">Ver Patrocinador</a></li><br>
+                <li class="opcion-li"><a class="opcion" href="/modalidad/nuevaModalidad">Nueva Modalidad</a></li><br>
+                <li class="opcion-li"><a class="opcion" href="/modalidad/ver">Ver Modalidades</a></li><br>
+            </ul>
+        </div>
+        
+    </main>
     <script>
         let fecha = Number('<%= hora %>');
         tempTime(fecha, true);
         cambiarAviso(fecha, "vencer");
     </script>
+    <%-include("../partials/footer")%>
 </body>
 </html>

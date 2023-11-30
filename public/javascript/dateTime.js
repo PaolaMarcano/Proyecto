@@ -18,7 +18,7 @@ function tempTime(fecha, alerta = false, avisar = 3) {
     }
 
     setTimeout(() => {
-        alert(`Su sesión ha caducado. Sebe iniciar sesión de nuevo.`);
+        alert(`Su sesión ha caducado. Debe iniciar sesión de nuevo.`);
         console.log("Sesión caducada.");
     }, restante);
 }
@@ -28,8 +28,8 @@ function cambiarAviso(fecha, idHTML) {
     let ahora = Date.now();
     let restante = fecha - ahora;
     let aviso = (restante / 1000 / 60).toFixed(0);
-    document.getElementById(idHTML).innerHTML = `Su sesión espira a las: ${new Date(fecha)} \nLe quedan ${aviso} minutos.`;
+    document.getElementById(idHTML).innerHTML = `Su sesión espira a las: ${new Date(fecha).toLocaleTimeString('es-US')} \n<hr> Le quedan ${aviso} minutos.`;
     setInterval(() => {
-        document.getElementById(idHTML).innerHTML = `Su sesión espira a las: ${new Date(fecha)} \nLe quedan ${aviso} minutos.`;
+        document.getElementById(idHTML).innerHTML = `Su sesión expira a las: ${new Date(fecha).toLocaleTimeString('es-US')} \n<hr> Le quedan ${aviso} minutos.`;
     }, 1000 * 60)
 }
